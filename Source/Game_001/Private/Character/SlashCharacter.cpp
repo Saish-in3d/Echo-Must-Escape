@@ -109,6 +109,7 @@ void ASlashCharacter::Equip_E()
 	{
 		
 		OverlappingWeapon->Equip(GetMesh(), FName("RightHandSocket"), this);
+		OverlappingWeapon->SetOwner(this);
 		CharacterState = ECharacterState::ECS_EquippedOneHandedWeapon;
 		
 		GEngine->AddOnScreenDebugMessage(1, 1.f, FColor::Blue, FString("E PRESSED"));
@@ -147,6 +148,7 @@ void ASlashCharacter::Attack()
 	if(ActionState == EActionState::EAS_Unoccupied && CharacterState == ECharacterState::ECS_EquippedOneHandedWeapon && ActionState != EActionState::EAS_HitReaction)
 	{
 		ActionState = EActionState::EAS_Attacking;
+		UE_LOG(LogTemp, Warning, TEXT("Echo"));
 		PlayAttackMontage();
 		//AttackEnd();
 	}

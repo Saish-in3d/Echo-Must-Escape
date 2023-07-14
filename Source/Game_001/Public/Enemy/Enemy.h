@@ -69,6 +69,9 @@ protected:
 	void ClearAttackTimer();
 	virtual int32 PlayDeathMontage() override;
 
+	UPROPERTY(BlueprintReadOnly, Category = Combat)
+		 AActor* CombatTarget;
+
 	UPROPERTY()
 		FTimerHandle AttackTimer;
 	UPROPERTY(EditAnywhere, Category = Combat)
@@ -87,8 +90,6 @@ private:
 		void CheckCombatTarget();
 
 
-		UPROPERTY()
-			class AActor* CombatTarget;
 		UPROPERTY()
 			double DistanceLimit = 500.f;
 		// AI Navigation Start 

@@ -34,8 +34,8 @@ void AMyActor::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("Begin Play Called"));
 	GEngine->AddOnScreenDebugMessage(1, 10.f, FColor::Blue, FString("oNSCREEN MES SAGE"));
 	FVector Location = GetActorLocation();
-	DrawDebugSphere(World, Location, 25.f, 24, FColor::Red, false, 60);  
-	DrawDebugLine(World, Location, Location + GetActorForwardVector() * 100, FColor::Red, true,-1.f, 0.f, 1.f);
+	//DrawDebugSphere(World, Location, 25.f, 24, FColor::Red, false, 60);  
+	//DrawDebugLine(World, Location, Location + GetActorForwardVector() * 100, FColor::Red, true,-1.f, 0.f, 1.f);
 
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &AMyActor::OnSphereOverlap);
 

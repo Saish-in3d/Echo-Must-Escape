@@ -167,6 +167,8 @@ void ABaseCharacter::GetHit_Implementation(const FVector& ImpactPoint)
 	 const int32 MaxSectionIndex = Section.Num() - 1;
 	 const int32 Selection = FMath::RandRange(0, MaxSectionIndex);
 	 PlayMontageSection(Montage, Section[Selection]);
+	 UE_LOG(LogTemp, Warning, TEXT("My int32 value: %d"), Selection);
+
 	 return Selection;
  }
  int32 ABaseCharacter::PlayDeathMontage()

@@ -40,10 +40,13 @@ AEnemy::AEnemy()
 	PawnSensor->SightRadius = 1000.F;
 	PawnSensor->SetPeripheralVisionAngle(45.f); 
 
+	
+
 }
 
 void AEnemy::GetHit_Implementation(const FVector& ImpactPoint)
 {
+
 	ShowHealthBar();
 
 	if (IsCharacterAlive())

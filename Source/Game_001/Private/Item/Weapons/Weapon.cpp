@@ -30,14 +30,14 @@ void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
 	SwordBox->OnComponentBeginOverlap.AddDynamic(this, &AWeapon::OnBoxOverlap);
-	 WeaponOwner = GetOwner();
+	
 }
 
 
 void AWeapon::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 
-	
+	WeaponOwner = GetOwner();
 	if (WeaponOwner)
 	{
 		if (WeaponOwner->ActorHasTag(TEXT("Enemy")) && OtherActor->ActorHasTag(TEXT("Enemy"))) return;
@@ -47,10 +47,11 @@ void AWeapon::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 	FHitResult BoxHit;
 	BoxTrace(BoxHit);
 	
-	if (BoxHit.GetActor())
+	if (BoxHit.GetActor() && BoxHit.GetActor() != WeaponOwner)
 	{
 		if (WeaponOwner)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("WeaponOwner"));
 			if (WeaponOwner->ActorHasTag(TEXT("Enemy")) && OtherActor->ActorHasTag(TEXT("Enemy"))) return;
 		}
 		//if (GetOwner() && OtherActor->ActorHasTag(TEXT("Enemy"))) return;
