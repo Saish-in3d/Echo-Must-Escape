@@ -26,6 +26,8 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		class UAttributeComponent* Attributes;
 
+	virtual void HandleDamage(float DamageAmount);
+
 
 
 protected:

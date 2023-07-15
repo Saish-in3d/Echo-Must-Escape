@@ -50,6 +50,12 @@ ASlashCharacter::ASlashCharacter()
 
 
 
+float ASlashCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	HandleDamage(DamageAmount);
+	return DamageAmount;
+}
+
 // Called when the game starts or when spawned
 void ASlashCharacter::BeginPlay()
 {

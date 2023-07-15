@@ -22,6 +22,9 @@ public:
 	virtual void GetHit_Implementation(const FVector& ImpactPoint) override;
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
+	virtual void HandleDamage(float DamageAmount) override;
+
+
 	UFUNCTION(BlueprintCallable)
 		FVector GetTranslationWarpTarget();
 

@@ -26,7 +26,7 @@ AEnemy::AEnemy()
 	GetMesh()->SetGenerateOverlapEvents(true);
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
 
-	Attributes = CreateDefaultSubobject<UAttributeComponent>(FName("Attributes"));
+	
 
 	HealthBarWidgets = CreateDefaultSubobject<UHealthBarComponent>(FName("HealthBar"));
 
@@ -313,15 +313,23 @@ void AEnemy::CheckCombatTarget()
 
 float AEnemy::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-	if (Attributes && HealthBarWidgets)
-	{
-		Attributes->RecieveDamage(DamageAmount);
-		HealthBarWidgets->SetHealthPercent(Attributes->GetHealthPercent());  // health pc = Health/MaxHealth
-	}
+	HandleDamage(DamageAmount);
+	
 	CombatTarget = EventInstigator->GetPawn();
 	StartChasingTarget();
 	UE_LOG(LogTemp, Warning, TEXT("Enemy hit chase!"));
 	return DamageAmount;
+}
+
+void AEnemy::HandleDamage(float DamageAmount)
+{
+	Super::HandleDamage(DamageAmount);
+	if (Attributes && HealthBarWidgets)
+	{
+
+		HealthBarWidgets->SetHealthPercent(Attributes->GetHealthPercent());  // health pc = Health/MaxHealth
+	}
+
 }
 
 FVector AEnemy::GetTranslationWarpTarget()
