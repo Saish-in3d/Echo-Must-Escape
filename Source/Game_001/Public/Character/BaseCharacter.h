@@ -26,6 +26,8 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		class UAttributeComponent* Attributes;
 
+
+
 protected:
 	virtual void BeginPlay() override;
 

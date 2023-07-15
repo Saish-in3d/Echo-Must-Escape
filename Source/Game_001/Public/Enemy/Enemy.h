@@ -22,6 +22,12 @@ public:
 	virtual void GetHit_Implementation(const FVector& ImpactPoint) override;
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
+	UFUNCTION(BlueprintCallable)
+		FVector GetTranslationWarpTarget();
+
+	UFUNCTION(BlueprintCallable)
+		FVector GetRotationWarpTarget();
+
 	// AI Combat End
 	
 protected:
@@ -80,6 +86,9 @@ protected:
 		float AttackMax = 1.f;
 	UPROPERTY(BlueprintReadOnly)
 		TEnumAsByte< EDeathState > DeathPose;
+
+	UPROPERTY(EditAnywhere, Category = Combat)
+	double WarpTargetDistance = 75.f;
 	//Combat End
 
 

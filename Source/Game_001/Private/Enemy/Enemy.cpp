@@ -40,7 +40,6 @@ AEnemy::AEnemy()
 	PawnSensor->SightRadius = 1000.F;
 	PawnSensor->SetPeripheralVisionAngle(45.f); 
 
-	
 
 }
 
@@ -323,6 +322,30 @@ float AEnemy::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AC
 	StartChasingTarget();
 	UE_LOG(LogTemp, Warning, TEXT("Enemy hit chase!"));
 	return DamageAmount;
+}
+
+FVector AEnemy::GetTranslationWarpTarget()
+{
+	if(CombatTarget == nullptr) return FVector();
+
+	const FVector CombatTargetLoaction = CombatTarget->GetActorLocation();
+	const FVector Location = GetActorLocation();
+
+	FVector TargetToMe = (Location - CombatTargetLoaction).GetSafeNormal();
+	TargetToMe *= WarpTargetDistance;
+
+	return CombatTargetLoaction + TargetToMe;
+
+	
+}
+
+FVector AEnemy::GetRotationWarpTarget()
+{
+	if (CombatTarget)
+	{
+		return CombatTarget->GetActorLocation();
+	}
+	return FVector();
 }
 
 void AEnemy::Die()

@@ -15,6 +15,8 @@ ABaseCharacter::ABaseCharacter()
 
 }
 
+
+
 // Called when the game starts or when spawned
 void ABaseCharacter::BeginPlay()
 {
