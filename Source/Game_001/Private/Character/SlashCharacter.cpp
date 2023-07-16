@@ -207,6 +207,15 @@ void ASlashCharacter::ReactEnd()
 	ActionState = EActionState::EAS_Unoccupied;
 }
 
+void ASlashCharacter::Die()
+{
+	Super::Die();
+
+	ActionState = EActionState::EAS_Dead;
+	DisableMeshCollision();
+
+}
+
 void ASlashCharacter::PlayEquipMontage(FName SectionName)
 {
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
@@ -251,6 +260,10 @@ void ASlashCharacter::GetHit_Implementation(const FVector& ImpactPoint)
 	else Die();
 	PlayHitSound(ImpactPoint);
 	SpawnHitParticles(ImpactPoint);
+	if (Attributes && Attributes->GetHealthPercent() > 0.f)
+	{
+		ActionState = EActionState::EAS_HitReaction;
+	}
 }
 
 bool ASlashCharacter::CanDisarm()

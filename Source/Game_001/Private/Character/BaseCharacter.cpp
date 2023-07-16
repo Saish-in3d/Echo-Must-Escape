@@ -65,6 +65,11 @@ void ABaseCharacter::GetHit_Implementation(const FVector& ImpactPoint)
 	
 }
 
+ void ABaseCharacter::DisableMeshCollision()
+ {
+	 GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+ }
+
  int32 ABaseCharacter::PlayAttackMontage()
  {
 	 
@@ -179,15 +184,25 @@ void ABaseCharacter::GetHit_Implementation(const FVector& ImpactPoint)
 	 const int32 MaxSectionIndex = Section.Num() - 1;
 	 const int32 Selection = FMath::RandRange(0, MaxSectionIndex);
 	 PlayMontageSection(Montage, Section[Selection]);
-	 UE_LOG(LogTemp, Warning, TEXT("My int32 value: %d"), Selection);
+	 
 
 	 return Selection;
  }
  int32 ABaseCharacter::PlayDeathMontage()
  {
-	 
-	 return PlayRandomMontageSection(DeathMontageSections, DeathMontage);
+	 const int32 Selection = PlayRandomMontageSection(DeathMontageSections, DeathMontage );
+	 // plays death montage
+
+	 //below code for death pose
+	 TEnumAsByte<EDeathState> Pose(Selection);
+	 if (Pose < EDeathState::EDS_DeathMax)
+	 {
+		 UE_LOG(LogTemp, Warning, TEXT("My int32 value: %d"), Selection);
+		 DeathPose = Pose;
+	 }
+	 return Selection;
  }
  void ABaseCharacter::Die()
  {
+	 PlayDeathMontage();
  }

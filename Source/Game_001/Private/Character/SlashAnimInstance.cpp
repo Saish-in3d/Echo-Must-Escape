@@ -29,6 +29,9 @@ void USlashAnimInstance::NativeUpdateAnimation(float DeltaTime)
 
 		CharacterState = SlashCharacter->GetCharacterState();
 
+		ActionState = SlashCharacter->GetActionState();
+		DeathPose = SlashCharacter->GetDeathPose();
+
 	}
 
 }

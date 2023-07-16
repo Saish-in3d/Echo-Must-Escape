@@ -76,7 +76,7 @@ protected:
 	virtual void AttackEnd() override;
 	void StartAttackTimer();
 	void ClearAttackTimer();
-	virtual int32 PlayDeathMontage() override;
+
 
 	UPROPERTY(BlueprintReadOnly, Category = Combat)
 		 AActor* CombatTarget;
@@ -87,8 +87,7 @@ protected:
 		float AttackMin = 0.5f;
 	UPROPERTY(EditAnywhere, Category = Combat)
 		float AttackMax = 1.f;
-	UPROPERTY(BlueprintReadOnly)
-		TEnumAsByte< EDeathState > DeathPose;
+
 
 	UPROPERTY(EditAnywhere, Category = Combat)
 	double WarpTargetDistance = 75.f;

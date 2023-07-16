@@ -31,6 +31,8 @@ public:
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 	virtual void Jump() override;
+
+	FORCEINLINE EActionState GetActionState() const { return ActionState; }
 protected:
 	virtual void BeginPlay() override;
 
@@ -55,6 +57,7 @@ protected:
 	void Arm();
 	UFUNCTION(BlueprintCallable)
 	void ReactEnd();
+	virtual void Die() override;
 	/** Combat End */
 
 

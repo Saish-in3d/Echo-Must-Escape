@@ -28,6 +28,8 @@ public:
 
 	virtual void HandleDamage(float DamageAmount);
 
+	FORCEINLINE TEnumAsByte<EDeathState> GetDeathPose() const { return DeathPose; }
+
 
 
 protected:
@@ -50,10 +52,14 @@ protected:
 	void PlayMontageSection(UAnimMontage* Montage, const FName& SectionName);
 	int32 PlayRandomMontageSection(const TArray<FName>Section, UAnimMontage* Montage);
 	virtual int32 PlayDeathMontage();
+
+	UPROPERTY(BlueprintReadOnly)
+		TEnumAsByte< EDeathState > DeathPose;
 	UFUNCTION()
 		bool IsInTargetRange(AActor* Target, double RangeValue);
 	UFUNCTION(BlueprintCallable)
 		virtual	void AttackEnd();
+	void DisableMeshCollision();
 
 	UPROPERTY(EditAnywhere, Category = Combat);
 	TArray<FName> AttackMontageSections;
@@ -73,6 +79,7 @@ protected:
 		class UAnimMontage* HitMontage;
 	UPROPERTY(EditDefaultsOnly, Category = Montages)
 		class UAnimMontage* DeathMontage;
+
 	//anim montage related End
 
 

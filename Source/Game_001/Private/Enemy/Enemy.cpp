@@ -183,20 +183,6 @@ void AEnemy::AfterPawnSeen(APawn* SeenPawn)
 	}
 }
 
-int32 AEnemy::PlayDeathMontage()
-{
-	const int32 Selection = Super::PlayDeathMontage();
-	// plays death montage
-
-	//below code for death pose
-	TEnumAsByte<EDeathState> Pose(Selection);
-	if (Pose < EDeathState::EDS_DeathMax)
-	{
-		DeathPose = Pose;
-	}
-	return Selection;
-}
-
 void AEnemy::HideHealthBar()
 {
 	if (HealthBarWidgets)
@@ -360,7 +346,7 @@ void AEnemy::Die()
 {
 	EnemyState = EEnemyState::EES_Dead;
 	ClearAttackTimer();
-	PlayDeathMontage();
+	//PlayDeathMontage();
 	EquippedWeaponDestroy();
 	HideHealthBar();
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
