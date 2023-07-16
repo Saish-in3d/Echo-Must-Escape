@@ -21,5 +21,8 @@ private:
 
 	UPROPERTY()
 		class USlashOverlayWidget* SlashOverlay;
+
+public:
+	FORCEINLINE class USlashOverlayWidget* GetSlashOverlay() const { return SlashOverlay; }
 	
 };

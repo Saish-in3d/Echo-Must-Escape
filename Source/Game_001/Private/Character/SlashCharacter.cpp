@@ -7,7 +7,10 @@
 #include "Item/MyActor.h"
 #include "Animation/AnimMontage.h"
 #include "Item/Weapons/Weapon.h"
+#include "Components/AttributeComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "HUD/SlashHUD.h"
+#include "SlashOverlayWidget.h"
 // Sets default values
 ASlashCharacter::ASlashCharacter()
 {
@@ -53,7 +56,16 @@ ASlashCharacter::ASlashCharacter()
 float ASlashCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	HandleDamage(DamageAmount);
+	SetHUDHealth();
 	return DamageAmount;
+}
+
+void ASlashCharacter::Jump()
+{
+	if (IsUnoccupied())
+	{
+		Super::Jump();
+	}
 }
 
 // Called when the game starts or when spawned
@@ -61,6 +73,7 @@ void ASlashCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	Tags.Add(FName("EngageableTarget"));
+	InitializeSlashOverlay();
 }
 
 void ASlashCharacter::MoveForward(float Value)
@@ -190,10 +203,9 @@ void ASlashCharacter::Arm()
 
 void ASlashCharacter::ReactEnd()
 {
+
 	ActionState = EActionState::EAS_Unoccupied;
 }
-
-
 
 void ASlashCharacter::PlayEquipMontage(FName SectionName)
 {
@@ -221,7 +233,7 @@ void ASlashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAxis(FName("Turn"), this, &ASlashCharacter::Turn);
 	PlayerInputComponent->BindAxis(FName("MoveRight"), this, &ASlashCharacter::MoveRight);
 
-	PlayerInputComponent->BindAction(FName("Jump"), IE_Pressed, this, &ACharacter::Jump);
+	PlayerInputComponent->BindAction(FName("Jump"), IE_Pressed, this, &ASlashCharacter::Jump);
 	PlayerInputComponent->BindAction(FName("Equip_E"), IE_Pressed, this, &ASlashCharacter::Equip_E);
 	PlayerInputComponent->BindAction(FName("Attack"), IE_Pressed, this, &ASlashCharacter::Attack);
 	
@@ -231,12 +243,12 @@ void ASlashCharacter::GetHit_Implementation(const FVector& ImpactPoint)
 {
 	ActionState = EActionState::EAS_HitReaction; 
 	WeaponColliisionEnabled(ECollisionEnabled::NoCollision);
-	if (true)
+	if (IsCharacterAlive())
 		//IsCharacterAlive()
 	{
 		DirectionalHit(ImpactPoint);
 	}
-	//else Die();
+	else Die();
 	PlayHitSound(ImpactPoint);
 	SpawnHitParticles(ImpactPoint);
 }
@@ -249,6 +261,37 @@ bool ASlashCharacter::CanDisarm()
 bool ASlashCharacter::CanArm()
 {
 	return  ActionState == EActionState::EAS_Unoccupied && CharacterState == ECharacterState::ECS_Unequipped && EquippedWeapon && EquipMontage;
+}
+
+void ASlashCharacter::InitializeSlashOverlay()
+{
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
+	if (PlayerController)
+	{
+		ASlashHUD* SlashHUD = Cast<ASlashHUD>(PlayerController->GetHUD());
+		if (SlashHUD)
+		{
+			SlashOverlay = SlashHUD->GetSlashOverlay();
+			if (SlashOverlay && Attributes)
+			{
+				SlashOverlay->SetHealthBarPercent(Attributes->GetHealthPercent());
+				SlashOverlay->SetStaminaBarPercent(1.f);
+			}
+		}
+	}
+}
+
+bool ASlashCharacter::IsUnoccupied()
+{
+	return ActionState == EActionState::EAS_Unoccupied;
+}
+
+void ASlashCharacter::SetHUDHealth()
+{
+	if (SlashOverlay && Attributes)
+	{
+		SlashOverlay->SetHealthBarPercent(Attributes->GetHealthPercent());
+	}
 }
 
 

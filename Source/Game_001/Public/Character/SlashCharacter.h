@@ -30,6 +30,7 @@ public:
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
+	virtual void Jump() override;
 protected:
 	virtual void BeginPlay() override;
 
@@ -59,6 +60,12 @@ protected:
 
 private:
 
+	void InitializeSlashOverlay();
+
+	bool IsUnoccupied();
+
+	void SetHUDHealth();
+
 	//Char Component Start
 	UPROPERTY(VisibleAnywhere);
 	class USpringArmComponent* SpringArm;
@@ -87,6 +94,9 @@ private:
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"));
 	EArmState ArmState = EArmState::EAS_UnArmed;
 	// Char State End
+
+	UPROPERTY()
+	class USlashOverlayWidget* SlashOverlay;
 
 
 };
