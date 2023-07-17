@@ -5,6 +5,7 @@
 #include "Item/Weapons/Weapon.h"
 #include "Components/BoxComponent.h"
 #include "Components/AttributeComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -36,7 +37,7 @@ void ABaseCharacter::BeginPlay()
 
 void ABaseCharacter::Attack()
 {
-
+	
 }
 
 // Called every frame
@@ -68,6 +69,13 @@ void ABaseCharacter::GetHit_Implementation(const FVector& ImpactPoint)
  void ABaseCharacter::DisableMeshCollision()
  {
 	 GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	 UCapsuleComponent* BaseCapsuleComponent = FindComponentByClass<UCapsuleComponent>();
+	 if (BaseCapsuleComponent)
+	 {
+		 BaseCapsuleComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		 // The CapsuleComponent is found
+		 // You can now use the CapsuleComponent reference for further operations
+	 }
  }
 
  int32 ABaseCharacter::PlayAttackMontage()
@@ -204,5 +212,6 @@ void ABaseCharacter::GetHit_Implementation(const FVector& ImpactPoint)
  }
  void ABaseCharacter::Die()
  {
+	 Tags.Add(FName("Dead"));
 	 PlayDeathMontage();
  }

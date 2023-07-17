@@ -171,14 +171,17 @@ void AEnemy::AfterPawnSeen(APawn* SeenPawn)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Pawn Seen!"));
 		GetWorldTimerManager().ClearTimer(PatrolTimer);
-		CombatTarget = SeenPawn;
-		if (IsInTargetRange(CombatTarget, 500))
+		if(!SeenPawn->ActorHasTag(FName("Dead")))
 		{
-			StartChasingTarget();
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT(" Combat Target out of range"));
+			CombatTarget = SeenPawn;
+			if (IsInTargetRange(CombatTarget, 500))
+			{
+				StartChasingTarget();
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT(" Combat Target out of range"));
+			}
 		}
 	}
 }
@@ -228,6 +231,7 @@ void AEnemy::AttackEnd()
 	EnemyState = EEnemyState::EES_NoState;
 	CheckCombatTarget();
 	UE_LOG(LogTemp, Warning, TEXT(" DisEngaged "));
+	StartPatrollling();
 }
 
 void AEnemy::StartAttackTimer()
@@ -291,6 +295,7 @@ void AEnemy::CheckCombatTarget()
 			ClearAttackTimer();
 			StartChasingTarget();
 		}
+		
 
 	}
 }
@@ -363,6 +368,11 @@ void AEnemy::EquippedWeaponDestroy()
 
 void AEnemy::Attack()
 {
+	if (CombatTarget && CombatTarget->ActorHasTag(FName("Dead")))
+	{
+		CombatTarget = nullptr;
+	}
+	if (CombatTarget == nullptr) return;
 	UE_LOG(LogTemp, Warning, TEXT(" Engaged "));
 	EnemyState = EEnemyState::EES_Engaged;
 	PlayAttackMontage();
