@@ -266,6 +266,11 @@ void ASlashCharacter::GetHit_Implementation(const FVector& ImpactPoint)
 	}
 }
 
+void ASlashCharacter::SetOverlappingItem(AMyActor* Item)
+{
+	OverlappingActorr = Item;
+}
+
 bool ASlashCharacter::CanDisarm()
 {
 	return ActionState == EActionState::EAS_Unoccupied && CharacterState != ECharacterState::ECS_Unequipped && EquippedWeapon && EquipMontage;

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Character/BaseCharacter.h"
 #include "Interfaces/HitInterface.h"
+#include "PickupInterface.h"
 #include "CharacterTypes.h"
 #include "SlashCharacter.generated.h"
 
@@ -14,7 +15,7 @@ class AMyActor;
 
 
 UCLASS()
-class GAME_001_API ASlashCharacter : public ABaseCharacter, public IHitInterface
+class GAME_001_API ASlashCharacter : public ABaseCharacter, public IHitInterface, public IPickupInterface
 {
 	GENERATED_BODY()
 
@@ -25,7 +26,8 @@ public:
 
 	virtual void GetHit_Implementation(const FVector& ImpactPoint) override;
 
-	FORCEINLINE void SetOverlappingActor(AMyActor* Actorr) { OverlappingActorr = Actorr; }
+	//FORCEINLINE void SetOverlappingActor(AMyActor* Actorr) { OverlappingActorr = Actorr; }
+	virtual void SetOverlappingItem( AMyActor* Item) override;
 	FORCEINLINE ECharacterState GetCharacterState() { return CharacterState; }
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
@@ -86,6 +88,8 @@ private:
 	class AMyActor* OverlappingActorr = nullptr;
 	UPROPERTY(EditDefaultsOnly, Category = Montages)
 	class UAnimMontage* EquipMontage;
+	
+
 	//Weapon End
 
 

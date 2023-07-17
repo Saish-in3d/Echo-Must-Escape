@@ -3,7 +3,7 @@
 
 #include "Item/MyActor.h"
 #include "Components/StaticMeshComponent.h"
-#include "Character/SlashCharacter.h"
+#include "PickupInterface.h"
 #include "Components/SphereComponent.h"
 // Sets default values
 AMyActor::AMyActor()
@@ -45,17 +45,10 @@ void AMyActor::BeginPlay()
 }
 void AMyActor::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	SlashCharacter = Cast<ASlashCharacter>(OtherActor);
-	GEngine->AddOnScreenDebugMessage(1, 30.f, FColor::Red, OtherComp->GetName());
-	if (SlashCharacter)
+	IPickupInterface* PickupInterface = Cast<IPickupInterface>(OtherActor);
+	if (PickupInterface)
 	{
-		GEngine->AddOnScreenDebugMessage(1, 30.f, FColor::Red, OtherComp->GetName());
-		SlashCharacter->SetOverlappingActor(this);
-		
-		//FString Ayya =  this->GetName();
-		//GEngine->AddOnScreenDebugMessage(1, 30.f, FColor::Red, Ayya);
-		//FAttachmentTransformRules TransformRules(EAttachmentRule::SnapToTarget, true);
-		//ItemMesh->AttachToComponent(SlashCharacter->GetMesh(), TransformRules, FName("RightHandSocket"));
+		PickupInterface->SetOverlappingItem(this);
 	}
 
 }
@@ -63,14 +56,11 @@ void AMyActor::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 void AMyActor::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 
-	if (SlashCharacter)
+	IPickupInterface* PickupInterface = Cast<IPickupInterface>(OtherActor);
+	if (PickupInterface)
 	{
-		//GEngine->AddOnScreenDebugMessage(1, 30.f, FColor::Red, OtherComp->GetName());
-		SlashCharacter->SetOverlappingActor(nullptr);
-		//FAttachmentTransformRules TransformRules(EAttachmentRule::SnapToTarget, true);
-		//ItemMesh->AttachToComponent(SlashCharacter->GetMesh(), TransformRules, FName("RightHandSocket"));
+		PickupInterface->SetOverlappingItem(nullptr);
 	}
-	//SlashCharacter->SetOverlappingActor(nullptr);
 }
 
 float RunningTime;
