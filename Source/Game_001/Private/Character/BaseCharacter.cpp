@@ -78,6 +78,10 @@ void ABaseCharacter::GetHit_Implementation(const FVector& ImpactPoint)
 	 }
  }
 
+ void ABaseCharacter::DodgeEnd()
+ {
+ }
+
  int32 ABaseCharacter::PlayAttackMontage()
  {
 	 
@@ -209,6 +213,10 @@ void ABaseCharacter::GetHit_Implementation(const FVector& ImpactPoint)
 		 DeathPose = Pose;
 	 }
 	 return Selection;
+ }
+ void ABaseCharacter::PlayDodgeMontage()
+ {
+	 PlayMontageSection(DodgeMontage, FName("Default"));
  }
  void ABaseCharacter::Die()
  {

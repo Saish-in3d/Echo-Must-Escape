@@ -46,6 +46,7 @@ protected:
 	void MoveRight(float Value);
 	void Equip_E();
 	virtual void Attack() override;
+	void Dodge();
 	/* Input functions End */
 
 	/** Combat Start */
@@ -60,6 +61,7 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void ReactEnd();
 	virtual void Die() override;
+	virtual void DodgeEnd() override;
 	/** Combat End */
 
 

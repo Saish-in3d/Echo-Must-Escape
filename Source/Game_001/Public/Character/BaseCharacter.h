@@ -52,6 +52,7 @@ protected:
 	void PlayMontageSection(UAnimMontage* Montage, const FName& SectionName);
 	int32 PlayRandomMontageSection(const TArray<FName>Section, UAnimMontage* Montage);
 	virtual int32 PlayDeathMontage();
+	virtual void PlayDodgeMontage();
 
 	UPROPERTY(BlueprintReadOnly)
 		TEnumAsByte< EDeathState > DeathPose;
@@ -69,6 +70,8 @@ protected:
 		USoundBase* HitSound;
 	UPROPERTY(EditAnywhere, Category = VFX)
 		UParticleSystem* HitParticles;
+	UFUNCTION(BlueprintCallable)
+		virtual void DodgeEnd();
 	//combat End
 	
 
@@ -79,6 +82,8 @@ protected:
 		class UAnimMontage* HitMontage;
 	UPROPERTY(EditDefaultsOnly, Category = Montages)
 		class UAnimMontage* DeathMontage;
+	UPROPERTY(EditDefaultsOnly, Category = Combat)
+		class UAnimMontage* DodgeMontage;
 
 	//anim montage related End
 
