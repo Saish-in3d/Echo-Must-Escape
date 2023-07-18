@@ -68,6 +68,16 @@ void ASlashCharacter::Jump()
 	}
 }
 
+bool ASlashCharacter::HasEnoughStamina()
+{
+	return  Attributes && Attributes->GetStamina() > Attributes->GetDodgeCost();
+}
+
+bool ASlashCharacter::IsOccupied()
+{
+	return ActionState != EActionState::EAS_Unoccupied;
+}
+
 // Called when the game starts or when spawned
 void ASlashCharacter::BeginPlay()
 {
@@ -175,9 +185,15 @@ void ASlashCharacter::Attack()
 
 void ASlashCharacter::Dodge()
 {
-	if (ActionState != EActionState::EAS_Unoccupied) return;
+	if (IsOccupied() || !HasEnoughStamina()) return;
 	PlayDodgeMontage();
 	ActionState = EActionState::EAS_Dodge;
+
+	if (Attributes && SlashOverlay)
+	{
+		Attributes->UseStamina(Attributes->GetDodgeCost());
+		SlashOverlay->SetStaminaBarPercent(Attributes->GetStaminaPercent());
+	}
 }
 
 void ASlashCharacter::AttackEnd()
@@ -262,6 +278,17 @@ void ASlashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAction(FName("Dodge"), IE_Pressed, this, &ASlashCharacter::Dodge);
 	
 }
+
+void ASlashCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (Attributes && SlashOverlay)
+	{
+		Attributes->RegenStamina(DeltaTime);
+		SlashOverlay->SetStaminaBarPercent(Attributes->GetStaminaPercent());
+	}
+}
+
 
 void ASlashCharacter::GetHit_Implementation(const FVector& ImpactPoint)
 {

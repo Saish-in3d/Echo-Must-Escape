@@ -24,6 +24,10 @@ public:
 	ASlashCharacter();
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	virtual void Tick(float DeltaTime) override;
+
+
+
 	virtual void GetHit_Implementation(const FVector& ImpactPoint) override;
 
 	//FORCEINLINE void SetOverlappingActor(AMyActor* Actorr) { OverlappingActorr = Actorr; }
@@ -35,6 +39,10 @@ public:
 	virtual void Jump() override;
 
 	FORCEINLINE EActionState GetActionState() const { return ActionState; }
+
+	bool HasEnoughStamina();
+
+	bool IsOccupied();
 protected:
 	virtual void BeginPlay() override;
 
