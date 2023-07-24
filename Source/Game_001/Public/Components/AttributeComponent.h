@@ -58,4 +58,6 @@ public:
 	FORCEINLINE float GetDodgeCost() const { return DodgeCost; }
 	FORCEINLINE float GetStamina() const { return Stamina; }
 
+	void AddHealth(float AddHealth);
+
 };

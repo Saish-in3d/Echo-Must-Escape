@@ -46,6 +46,11 @@ float UAttributeComponent::GetStaminaPercent()
 	return Stamina / MaxStamina;
 }
 
+void UAttributeComponent::AddHealth(float AddHealth)
+{
+	Health = FMath::Clamp(Health + AddHealth, 0.f, MaxHealth);
+}
+
 
 void UAttributeComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {

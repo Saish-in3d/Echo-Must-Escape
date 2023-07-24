@@ -6,6 +6,8 @@
 #include "Components/BoxComponent.h"
 #include "Components/AttributeComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "InventoryComponent.h"
+#include "Inventory/BaseItem.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -16,6 +18,8 @@ ABaseCharacter::ABaseCharacter()
 
 	Attributes = CreateDefaultSubobject<UAttributeComponent>(FName("Attributes"));
 
+	Inventory = CreateDefaultSubobject<UInventoryComponent>(FName("Inventory"));
+	Inventory->Capacity = 20;
 }
 
 
@@ -25,6 +29,15 @@ void ABaseCharacter::HandleDamage(float DamageAmount)
 	if (Attributes )
 	{
 		Attributes->RecieveDamage(DamageAmount);
+	}
+}
+
+void ABaseCharacter::UseItem(UBaseItem* Item)
+{
+	if (Item)
+	{
+		Item->Use(this);
+		Item->OnSUse(this); //BlueprintImplementable function
 	}
 }
 

@@ -30,7 +30,8 @@ public:
 
 	FORCEINLINE TEnumAsByte<EDeathState> GetDeathPose() const { return DeathPose; }
 
-
+	UFUNCTION()
+		void UseItem(class UBaseItem* Item);
 
 protected:
 	virtual void BeginPlay() override;
@@ -84,7 +85,6 @@ protected:
 		class UAnimMontage* DeathMontage;
 	UPROPERTY(EditDefaultsOnly, Category = Combat)
 		class UAnimMontage* DodgeMontage;
-
 	//anim montage related End
 
 
@@ -99,4 +99,7 @@ protected:
 //Weapon End
 
 
+	//Inventory related start//
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AlowPrivateAccess = "true"))
+	class UInventoryComponent* Inventory;
 };

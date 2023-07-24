@@ -231,7 +231,7 @@ void AEnemy::AttackEnd()
 	EnemyState = EEnemyState::EES_NoState;
 	CheckCombatTarget();
 	UE_LOG(LogTemp, Warning, TEXT(" DisEngaged "));
-	StartPatrollling();
+	//StartPatrollling();
 }
 
 void AEnemy::StartAttackTimer()
@@ -297,6 +297,10 @@ void AEnemy::CheckCombatTarget()
 		}
 		
 
+	}
+	else
+	{
+		StartPatrollling();
 	}
 }
 
