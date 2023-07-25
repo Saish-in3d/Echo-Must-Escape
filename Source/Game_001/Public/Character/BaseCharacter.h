@@ -30,7 +30,7 @@ public:
 
 	FORCEINLINE TEnumAsByte<EDeathState> GetDeathPose() const { return DeathPose; }
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 		void UseItem(class UBaseItem* Item);
 
 protected:
@@ -96,6 +96,7 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = Weapon);
 	class AWeapon* EquippedWeapon;
+//Weapon End
 //Weapon End
 
 

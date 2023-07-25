@@ -2,6 +2,7 @@
 
 
 #include "InventoryComponent.h"
+#include "Inventory/BaseItem.h"
 
 // Sets default values for this component's properties
 UInventoryComponent::UInventoryComponent()
@@ -30,22 +31,35 @@ void UInventoryComponent::BeginPlay()
 
 bool UInventoryComponent::AddItem(UBaseItem* Item)
 {
+	if (Items.Num() >= Capacity || !Item)
+	{
+		return false;
+	}
+
+	Item->OwningInventory = this;
 	Items.Add(Item);
+
+	//To update UI
 	OnInventoryUpdated.Broadcast();
-	return false;
+
+
+	return true;
 }
 
 bool UInventoryComponent::RemoveItem(UBaseItem* Item)
 {
+	if (Item)
+	{
+		Item->OwningInventory = nullptr;
+		Items.RemoveSingle(Item);
+		OnInventoryUpdated.Broadcast();
+		return true;
+
+	}
 	return false;
 }
 
 
 // Called every frame
-void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
-}
 
