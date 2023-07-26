@@ -26,8 +26,6 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-
-
 	virtual void GetHit_Implementation(const FVector& ImpactPoint) override;
 
 	//FORCEINLINE void SetOverlappingActor(AMyActor* Actorr) { OverlappingActorr = Actorr; }
@@ -43,6 +41,10 @@ public:
 	bool HasEnoughStamina();
 
 	bool IsOccupied();
+
+	void InitializeSlashOverlay();
+
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -74,8 +76,6 @@ protected:
 
 
 private:
-
-	void InitializeSlashOverlay();
 
 	bool IsUnoccupied();
 

@@ -9,4 +9,9 @@ UBaseItem::UBaseItem()
 	UseActionText = FText::FromString("Use");
 }
 
+void UBaseItem::Use(ABaseCharacter* Character)
+{
+
+}
+
 

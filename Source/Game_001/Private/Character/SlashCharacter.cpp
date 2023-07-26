@@ -290,6 +290,8 @@ void ASlashCharacter::Tick(float DeltaTime)
 }
 
 
+
+
 void ASlashCharacter::GetHit_Implementation(const FVector& ImpactPoint)
 {
 	ActionState = EActionState::EAS_HitReaction; 
