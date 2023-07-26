@@ -360,6 +360,9 @@ void AEnemy::Die()
 	HideHealthBar();
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	SetLifeSpan(5.f);
+
+
+	GetWorld()->SpawnActor<AMyActor>(KeyClass, GetActorLocation(), GetActorRotation());
 }
 
 void AEnemy::EquippedWeaponDestroy()

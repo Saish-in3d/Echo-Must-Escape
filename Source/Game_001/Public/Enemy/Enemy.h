@@ -115,6 +115,9 @@ private:
 		UPROPERTY(EditAnywhere)
 			TSubclassOf<class AWeapon>WeaponClass;
 
+		UPROPERTY(EditAnywhere)
+			TSubclassOf<class AMyActor>KeyClass;
+
 		//Combat End
 
 };

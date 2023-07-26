@@ -46,6 +46,21 @@ bool UInventoryComponent::AddItem(UBaseItem* Item)
 	return true;
 }
 
+bool UInventoryComponent::AddSubClassItem(TSubclassOf<UBaseItem>* Item)
+{
+	if (Items.Num() >= Capacity || !Item)
+	{
+		return false;
+	}
+	//Item->OwningInventory = this;
+	//Items.Add(Item);
+
+	//To update UI
+	OnInventoryUpdated.Broadcast();
+
+	return true;
+}
+
 bool UInventoryComponent::RemoveItem(UBaseItem* Item)
 {
 	if (Item)

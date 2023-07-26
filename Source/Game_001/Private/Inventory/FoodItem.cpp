@@ -7,6 +7,10 @@
 #include "Character/SlashCharacter.h"
 #include "Components/AttributeComponent.h"
 
+UFoodItem::UFoodItem()
+{
+}
+
 void UFoodItem::Use(ABaseCharacter* Character)
 {
 	if(Character)
@@ -19,7 +23,7 @@ void UFoodItem::Use(ABaseCharacter* Character)
 			
 			if (Attributes)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Eat"));
+				//UE_LOG(LogTemp, Warning, TEXT("Eat"));
 				Attributes->AddHealth(10.f);
 				SlashCharacter->InitializeSlashOverlay();
 			}

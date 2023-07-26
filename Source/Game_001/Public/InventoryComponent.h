@@ -26,6 +26,10 @@ public:
 
 	bool AddItem(class UBaseItem* Item);
 
+	bool AddSubClassItem(class TSubclassOf< UBaseItem>*  Item);
+
+	//bool AddItem(TSubclassOf<class UBaseItem> Item);
+
 	bool RemoveItem(class UBaseItem* Item);
 
 	UPROPERTY(EditDefaultsOnly, Instanced)
@@ -36,6 +40,8 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Inventory")
 		TArray<class UBaseItem*> Items;
+
+
 
 
 

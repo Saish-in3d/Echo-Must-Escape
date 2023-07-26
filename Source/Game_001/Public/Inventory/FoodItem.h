@@ -16,6 +16,8 @@ class GAME_001_API UFoodItem : public UBaseItem
 
 protected:
 
+	UFoodItem();
+
 	virtual void Use(class ABaseCharacter* Character)  override;
 
 	UPROPERTY(VisibleAnywhere)
