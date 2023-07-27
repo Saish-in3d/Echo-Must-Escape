@@ -1,6 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "UObject/ConstructorHelpers.h"
+#include "InventoryComponent.h"
+#include "Character/SlashCharacter.h"
+#include "Door/DoorActor.h"
 #include "KeyItem.h"
 
 UKeyItem::UKeyItem()
@@ -20,6 +23,21 @@ UKeyItem::UKeyItem()
 
 void UKeyItem::Use(ABaseCharacter* Character)
 {
+	if (Character)
+	{
+		ASlashCharacter* SlashCharacter = Cast<ASlashCharacter>(Character);
+
+		if (SlashCharacter)
+		{
+			ADoorActor* DoorActor = SlashCharacter->GetDoorActor();
+			if (DoorActor)
+
+			{
+				DoorActor->AddKeyToDoor();
+			}
+		}
+
+	}
 	//Door->SubmitKey()
 	//+1 key in door
 	//if door keys is equal to to required keys

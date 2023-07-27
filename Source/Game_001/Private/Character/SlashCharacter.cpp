@@ -85,6 +85,16 @@ void ASlashCharacter::BeginPlay()
 	Super::BeginPlay();
 	Tags.Add(FName("EngageableTarget"));
 	InitializeSlashOverlay();
+
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
+	if (PlayerController && DoorInventoryWidgetClass)
+	{
+
+
+		DoorOverlay = CreateWidget<UUserWidget>(PlayerController, DoorInventoryWidgetClass);
+
+
+	}
 }
 
 void ASlashCharacter::MoveForward(float Value)
@@ -346,27 +356,13 @@ void ASlashCharacter::InitializeSlashOverlay()
 
 void ASlashCharacter::CreateDoorInventoryWidget()
 {
-	if (DoorOverlay != nullptr)
+	if (DoorOverlay)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("My int32 value"));
 		DoorOverlay->AddToViewport();
-		return;
 	}
 	
-		APlayerController* PlayerController = Cast<APlayerController>(GetController());
-	if (PlayerController && DoorInventoryWidgetClass)
-	{
 
-
-		DoorOverlay = CreateWidget<UUserWidget>(PlayerController, DoorInventoryWidgetClass);
-		if (DoorOverlay)
-		{
-			//UE_LOG(LogTemp, Warning, TEXT("My int32 value"));
-			DoorOverlay->AddToViewport();
-		}
-
-
-	}
 }
 
 void ASlashCharacter::DestroyDoorInventoryWidget()

@@ -35,6 +35,9 @@ public:
 
 	FORCEINLINE void SetDoorActor(class ADoorActor* DoorActorTemp) { DoorActor = DoorActorTemp; }
 
+	FORCEINLINE class ADoorActor* GetDoorActor() { return DoorActor; }
+
+
 protected:
 	virtual void BeginPlay() override;
 

@@ -20,6 +20,8 @@ public:
 
 	void LiftUp();
 
+	void AddKeyToDoor();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -47,5 +49,6 @@ private:
 	UFUNCTION()
 	void OnBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	
 
 };

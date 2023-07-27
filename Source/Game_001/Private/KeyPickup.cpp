@@ -26,7 +26,7 @@ void AKeyPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 			//TSubclassOf< UKeyItem>* KeyItemObject = NewObject<TSubclassOf< UKeyItem>>();
 			UKeyItem* KeyItemObject = NewObject< UKeyItem>(UKeyItem::StaticClass());
 			//KeyItemClass* KeyItemObject = GetWorld()->SpawnActor<KeyItemClass>(KeyItemClass::StaticClass());
-			UClass* MyBpClass = FindObject<UClass>(nullptr, TEXT("MyPackage.MyBpClass_C"), true);
+			//UClass* MyBpClass = FindObject<UClass>(nullptr, TEXT("MyPackage.MyBpClass_C"), true);
 
 
 			if (Inventory && KeyItemObject)

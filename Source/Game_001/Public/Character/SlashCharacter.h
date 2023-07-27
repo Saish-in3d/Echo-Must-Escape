@@ -44,6 +44,7 @@ public:
 
 	void InitializeSlashOverlay();
 
+
 	void CreateDoorInventoryWidget();
 
 	void DestroyDoorInventoryWidget();

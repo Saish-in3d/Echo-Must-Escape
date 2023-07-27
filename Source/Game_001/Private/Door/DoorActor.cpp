@@ -4,6 +4,7 @@
 #include "Door/DoorActor.h"
 #include "InventoryComponent.h"
 #include "Character/SlashCharacter.h"
+#include "KeyItem.h"
 #include "Components/BoxComponent.h"
 
 
@@ -42,7 +43,7 @@ void ADoorActor::BeginPlay()
 
 void ADoorActor::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Key"));
+	
 	if (OtherActor)
 	{
 		ASlashCharacter* SlashChar = Cast<ASlashCharacter>(OtherActor);
@@ -51,6 +52,7 @@ void ADoorActor::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 		{
 			
 			SlashChar->SetDoorActor(this);
+			UE_LOG(LogTemp, Warning, TEXT("Key1"));
 			SlashChar->CreateDoorInventoryWidget();
 		}
 
@@ -74,6 +76,19 @@ void ADoorActor::OnBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 
 
 	}
+}
+
+void ADoorActor::AddKeyToDoor()
+{
+	UKeyItem* KeyItemObject = NewObject< UKeyItem>(UKeyItem::StaticClass());
+	if(InventoryComponent && KeyItemObject)
+	{
+		
+
+		InventoryComponent->AddItem(KeyItemObject);
+	}
+
+
 }
 
 // Called every frame
