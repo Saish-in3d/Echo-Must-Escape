@@ -8,7 +8,6 @@
 
 AKeyPickup::AKeyPickup()
 {
-
 }
 
 void AKeyPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -26,10 +25,13 @@ void AKeyPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 			UInventoryComponent* Inventory = SlashChar->FindComponentByClass<UInventoryComponent>();
 			//TSubclassOf< UKeyItem>* KeyItemObject = NewObject<TSubclassOf< UKeyItem>>();
 			UKeyItem* KeyItemObject = NewObject< UKeyItem>(UKeyItem::StaticClass());
+			//KeyItemClass* KeyItemObject = GetWorld()->SpawnActor<KeyItemClass>(KeyItemClass::StaticClass());
+			UClass* MyBpClass = FindObject<UClass>(nullptr, TEXT("MyPackage.MyBpClass_C"), true);
+
 
 			if (Inventory && KeyItemObject)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Key"));
+				
 				Inventory->AddItem(KeyItemObject);
 			}
 		}

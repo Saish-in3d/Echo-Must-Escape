@@ -44,6 +44,10 @@ public:
 
 	void InitializeSlashOverlay();
 
+	void CreateDoorInventoryWidget();
+
+	void DestroyDoorInventoryWidget();
+
 
 protected:
 	virtual void BeginPlay() override;
@@ -115,5 +119,11 @@ private:
 	UPROPERTY()
 	class USlashOverlayWidget* SlashOverlay;
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UUserWidget> DoorInventoryWidgetClass;
+	
+
+	UPROPERTY()
+		class UUserWidget* DoorOverlay;
 
 };

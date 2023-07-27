@@ -32,7 +32,7 @@ public:
 
 	bool RemoveItem(class UBaseItem* Item);
 
-	UPROPERTY(EditDefaultsOnly, Instanced)
+	UPROPERTY(EditDefaultsOnly , Instanced) 
 	TArray<class UBaseItem*> DefaultItems;
 
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")

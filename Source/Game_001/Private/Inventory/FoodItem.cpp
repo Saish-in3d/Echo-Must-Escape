@@ -9,6 +9,9 @@
 
 UFoodItem::UFoodItem()
 {
+	ItemDisplayName = FText::FromString("Bread");
+	UseActionText = FText::FromString("Eat");
+	ItemDescription = FText::FromString("Bread Increases health");
 }
 
 void UFoodItem::Use(ABaseCharacter* Character)

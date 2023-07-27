@@ -33,6 +33,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void UseItem(class UBaseItem* Item);
 
+	FORCEINLINE void SetDoorActor(class ADoorActor* DoorActorTemp) { DoorActor = DoorActorTemp; }
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -103,4 +105,9 @@ protected:
 	//Inventory related start//
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Inventory, meta = (AlowPrivateAccess = "true"))
 	class UInventoryComponent* Inventory;
+
+	//door
+
+	UPROPERTY(BlueprintReadWrite)
+	class ADoorActor* DoorActor;
 };

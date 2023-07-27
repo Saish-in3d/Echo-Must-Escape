@@ -40,7 +40,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (Multiline = true)) 
 		FText ItemDescription;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 		class UInventoryComponent* OwningInventory;
 
 	virtual void Use(class ABaseCharacter* Character);

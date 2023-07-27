@@ -53,10 +53,11 @@ bool UInventoryComponent::AddSubClassItem(TSubclassOf<UBaseItem>* Item)
 		return false;
 	}
 	//Item->OwningInventory = this;
+	//Item->
 	//Items.Add(Item);
 
 	//To update UI
-	OnInventoryUpdated.Broadcast();
+	//OnInventoryUpdated.Broadcast();
 
 	return true;
 }

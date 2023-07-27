@@ -10,6 +10,7 @@
 #include "Components/AttributeComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "HUD/SlashHUD.h"
+#include "Blueprint/UserWidget.h"
 #include "SlashOverlayWidget.h"
 // Sets default values
 ASlashCharacter::ASlashCharacter()
@@ -340,6 +341,40 @@ void ASlashCharacter::InitializeSlashOverlay()
 				SlashOverlay->SetStaminaBarPercent(1.f);
 			}
 		}
+	}
+}
+
+void ASlashCharacter::CreateDoorInventoryWidget()
+{
+	if (DoorOverlay != nullptr)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("My int32 value"));
+		DoorOverlay->AddToViewport();
+		return;
+	}
+	
+		APlayerController* PlayerController = Cast<APlayerController>(GetController());
+	if (PlayerController && DoorInventoryWidgetClass)
+	{
+
+
+		DoorOverlay = CreateWidget<UUserWidget>(PlayerController, DoorInventoryWidgetClass);
+		if (DoorOverlay)
+		{
+			//UE_LOG(LogTemp, Warning, TEXT("My int32 value"));
+			DoorOverlay->AddToViewport();
+		}
+
+
+	}
+}
+
+void ASlashCharacter::DestroyDoorInventoryWidget()
+{
+	if (DoorOverlay)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("My int32 value"));
+		DoorOverlay->RemoveFromViewport();
 	}
 }
 
