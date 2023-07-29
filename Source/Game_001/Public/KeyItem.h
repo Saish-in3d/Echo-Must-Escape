@@ -19,6 +19,8 @@ public:
 
 		virtual void Use(class ABaseCharacter* Character)  override;
 
+		bool IsKeyUsed = false;
+
 
 	
 };

@@ -5,6 +5,7 @@
 #include "InventoryComponent.h"
 #include "Character/SlashCharacter.h"
 #include "KeyItem.h"
+#include "Math/Quat.h"
 #include "Components/BoxComponent.h"
 
 
@@ -39,6 +40,12 @@ void ADoorActor::BeginPlay()
 	DoorOverlap->OnComponentBeginOverlap.AddDynamic(this, &ADoorActor::OnBoxOverlap);
 
 	DoorOverlap->OnComponentEndOverlap.AddDynamic(this, &ADoorActor::OnBoxEndOverlap);
+
+	
+
+	 StartRotation = FRotator(0.0f, 0.10f, 0.0f).Quaternion();
+
+	 EndRotation = FRotator(0.0f, -89.0f, 0.0f).Quaternion();
 }
 
 void ADoorActor::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -52,7 +59,7 @@ void ADoorActor::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 		{
 			
 			SlashChar->SetDoorActor(this);
-			UE_LOG(LogTemp, Warning, TEXT("Key1"));
+
 			SlashChar->CreateDoorInventoryWidget();
 		}
 
@@ -83,8 +90,8 @@ void ADoorActor::AddKeyToDoor()
 	UKeyItem* KeyItemObject = NewObject< UKeyItem>(UKeyItem::StaticClass());
 	if(InventoryComponent && KeyItemObject)
 	{
-		
-
+		SubmittedKeys += 1;
+		KeyItemObject->IsKeyUsed = true;
 		InventoryComponent->AddItem(KeyItemObject);
 	}
 
@@ -96,14 +103,33 @@ void ADoorActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (SubmittedKeys == 1)
+	if (SubmittedKeys == 10)
 	{
-		LiftUp();
+		OpenDoor();
 	}
 
+	
+
+	
+	
 }
 
-void ADoorActor::LiftUp()
+void ADoorActor::OpenDoor()
 {
+	if (DoorMesh)
+	{
+		if (Alpha <= 0.95f)
+		{
+
+			Alpha += 0.1;
+
+			FQuat Result = FQuat::Slerp(StartRotation, EndRotation, Alpha);
+
+
+			DoorMesh->SetRelativeRotation(Result);
+		}
+	}
+
+
 }
 

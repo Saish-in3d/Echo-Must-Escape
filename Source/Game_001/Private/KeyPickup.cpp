@@ -15,7 +15,7 @@ void AKeyPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 
 	//iNVENTORY ADD ITEM
 
-	if (OtherActor)
+	if (OtherActor && OtherActor->ActorHasTag(FName("Slash")))
 	{
 		ASlashCharacter* SlashChar = Cast<ASlashCharacter>(OtherActor);
 		
@@ -23,11 +23,7 @@ void AKeyPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		{
 			
 			UInventoryComponent* Inventory = SlashChar->FindComponentByClass<UInventoryComponent>();
-			//TSubclassOf< UKeyItem>* KeyItemObject = NewObject<TSubclassOf< UKeyItem>>();
 			UKeyItem* KeyItemObject = NewObject< UKeyItem>(UKeyItem::StaticClass());
-			//KeyItemClass* KeyItemObject = GetWorld()->SpawnActor<KeyItemClass>(KeyItemClass::StaticClass());
-			//UClass* MyBpClass = FindObject<UClass>(nullptr, TEXT("MyPackage.MyBpClass_C"), true);
-
 
 			if (Inventory && KeyItemObject)
 			{

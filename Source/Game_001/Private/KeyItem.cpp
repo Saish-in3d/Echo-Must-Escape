@@ -33,9 +33,18 @@ void UKeyItem::Use(ABaseCharacter* Character)
 			if (DoorActor)
 
 			{
-				DoorActor->AddKeyToDoor();
+				
+				if (OwningInventory && IsKeyUsed == false)
+				{
+					DoorActor->AddKeyToDoor();
+					UE_LOG(LogTemp, Warning, TEXT(" Removed Key1"));
+					OwningInventory->RemoveItem(this);
+				}
+				
 			}
 		}
+
+
 
 	}
 	//Door->SubmitKey()

@@ -84,17 +84,10 @@ void ASlashCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	Tags.Add(FName("EngageableTarget"));
+	Tags.Add(FName("Slash"));
 	InitializeSlashOverlay();
 
-	APlayerController* PlayerController = Cast<APlayerController>(GetController());
-	if (PlayerController && DoorInventoryWidgetClass)
-	{
-
-
-		DoorOverlay = CreateWidget<UUserWidget>(PlayerController, DoorInventoryWidgetClass);
-
-
-	}
+	
 }
 
 void ASlashCharacter::MoveForward(float Value)
@@ -356,6 +349,16 @@ void ASlashCharacter::InitializeSlashOverlay()
 
 void ASlashCharacter::CreateDoorInventoryWidget()
 {
+
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
+	if (PlayerController && DoorInventoryWidgetClass)
+	{
+
+
+		DoorOverlay = CreateWidget<UUserWidget>(PlayerController, DoorInventoryWidgetClass);
+
+
+	}
 	if (DoorOverlay)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("My int32 value"));

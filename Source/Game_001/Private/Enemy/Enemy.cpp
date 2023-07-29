@@ -153,7 +153,7 @@ void AEnemy::MoveToTarget(AActor* Target)
 {
 	
 	FAIMoveRequest MoveRequest;
-	MoveRequest.SetAcceptanceRadius(12.f);
+	MoveRequest.SetAcceptanceRadius(100.f);
 	MoveRequest.SetGoalActor(Target);
 	EnemyController->MoveTo(MoveRequest);
 }
@@ -284,13 +284,13 @@ void AEnemy::CheckCombatTarget()
 			UE_LOG(LogTemp, Warning, TEXT(" distance too long enemy lost intrest"));
 		}
 
-		else if (IsInTargetRange(CombatTarget, 200.f) && EnemyState != EEnemyState::EES_Attacking && EnemyState != EEnemyState::EES_Dead && EnemyState != EEnemyState::EES_Engaged)
+		else if (IsInTargetRange(CombatTarget, 400.f) && EnemyState != EEnemyState::EES_Attacking && EnemyState != EEnemyState::EES_Dead && EnemyState != EEnemyState::EES_Engaged)
 		{
 			//ClearAttackTimer();
 			StartAttackTimer();
 		}
 
-		else if (!IsInTargetRange(CombatTarget, 200.f) && EnemyState != EEnemyState::EES_Chasing)
+		else if (!IsInTargetRange(CombatTarget, 400.f) && EnemyState != EEnemyState::EES_Chasing)
 		{
 			ClearAttackTimer();
 			StartChasingTarget();
@@ -355,7 +355,7 @@ void AEnemy::Die()
 {
 	EnemyState = EEnemyState::EES_Dead;
 	ClearAttackTimer();
-	//PlayDeathMontage();
+	PlayDeathMontage();
 	EquippedWeaponDestroy();
 	HideHealthBar();
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);

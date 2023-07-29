@@ -18,7 +18,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void LiftUp();
+	void OpenDoor();
 
 	void AddKeyToDoor();
 
@@ -48,6 +48,12 @@ private:
 
 	UFUNCTION()
 	void OnBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	FQuat StartRotation;
+
+	FQuat EndRotation;
+
+	float Alpha = 0.f;
 
 	
 
