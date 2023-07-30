@@ -25,22 +25,25 @@ void AKeyPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 			UInventoryComponent* Inventory = SlashChar->FindComponentByClass<UInventoryComponent>();
 			UKeyItem* KeyItemObject = NewObject< UKeyItem>(UKeyItem::StaticClass());
 
-			if (Inventory && KeyItemObject)
+			if (Inventory && KeyItemObject && Inventory->Items.Num() <= Inventory->Capacity-1)
 			{
 				
 				Inventory->AddItem(KeyItemObject);
+
+				if (CoinSound)
+				{
+					UGameplayStatics::PlaySoundAtLocation(
+						this,
+						CoinSound,
+						GetActorLocation()
+					);
+					Destroy();
+				}
+				
 			}
 		}
 
-		if (CoinSound)
-		{
-			UGameplayStatics::PlaySoundAtLocation(
-				this,
-				CoinSound,
-				GetActorLocation()
-			);
-		}
-		Destroy();
+
 	}
 }
 	

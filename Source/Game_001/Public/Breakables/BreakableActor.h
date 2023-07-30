@@ -38,7 +38,10 @@ private:
 
 
 	UPROPERTY(VisibleAnywhere)
-		USceneComponent* NewSceneComponent;
+	USceneComponent* NewSceneComponent;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class AHealthPickup> HealthPickupClass;
 	
 
 	bool HasHit = false;

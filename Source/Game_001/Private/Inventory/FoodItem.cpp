@@ -12,6 +12,12 @@ UFoodItem::UFoodItem()
 	ItemDisplayName = FText::FromString("Bread");
 	UseActionText = FText::FromString("Eat");
 	ItemDescription = FText::FromString("Bread Increases health");
+
+	static ConstructorHelpers::FObjectFinder<UTexture2D> ThumbnailPath(TEXT("Texture2D'/Game/Blueprints/InventorySystem/bread-icon-37168.bread-icon-37168'"));
+	if (ThumbnailPath.Succeeded())
+	{
+		Thumbnail = ThumbnailPath.Object;
+	}
 }
 
 void UFoodItem::Use(ABaseCharacter* Character)

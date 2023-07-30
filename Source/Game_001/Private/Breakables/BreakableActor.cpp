@@ -4,6 +4,7 @@
 #include "Breakables/BreakableActor.h"
 #include "Item/Treasure/Treasure.h"
 #include "Components/CapsuleComponent.h"
+#include "Inventory/HealthPickup.h"
 #include "GeometryCollection/GeometryCollectionComponent.h"
 
 ABreakableActor::ABreakableActor()
@@ -46,14 +47,35 @@ void ABreakableActor::GetHit_Implementation(const FVector& ImpactPoint)
 	if (HasHit) { return; }
 	HasHit = true;
 	UWorld* World = GetWorld();
+	if(BreakableCapsule)
+	{
+		BreakableCapsule->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
+	}
 	if (World && TreasureClassess.Num() > 0)
 	{
 		FVector Location = GetActorLocation();
 		Location.Z += 75.f;
 
-		int32 Selection = FMath::RandRange(0, TreasureClassess.Num() - 1);
+		int32 Selection1 = FMath::RandRange(0, 10);
+		if (Selection1 == 1 || Selection1 == 2 || Selection1 == 3)
+		{
 
-		World->SpawnActor<ATreasure>(TreasureClassess[Selection], Location, GetActorRotation());
+			int32 Selection2 = FMath::RandRange(0, TreasureClassess.Num() - 1);
+
+			if(TreasureClassess[Selection2])
+			{
+				World->SpawnActor<ATreasure>(TreasureClassess[Selection2], Location, GetActorRotation());
+			}
+		}
+		else
+		{
+			if(HealthPickupClass)
+			{
+				World->SpawnActor<AHealthPickup>(HealthPickupClass, Location, GetActorRotation());
+			}
+		}
+
+
 	}
 }
 
