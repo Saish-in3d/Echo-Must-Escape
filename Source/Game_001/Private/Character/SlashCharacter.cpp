@@ -85,7 +85,7 @@ void ASlashCharacter::BeginPlay()
 	Super::BeginPlay();
 	Tags.Add(FName("EngageableTarget"));
 	Tags.Add(FName("Slash"));
-	InitializeSlashOverlay();
+	//InitializeSlashOverlay();
 
 	
 }
