@@ -26,6 +26,8 @@ public:
 	UPROPERTY(meta = (BindWidget))
 		class UButton* ExitGame;
 
+	
+
 private:
 	UFUNCTION()
 		void OnClickStartGameButton();

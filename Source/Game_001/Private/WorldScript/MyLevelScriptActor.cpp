@@ -2,9 +2,12 @@
 
 #include "HUD/MainMenuWidget.h"
 #include "MovieScene.h"
-#include "LevelSequenceActor.h"
-#include "LevelSequence.h"
+//#include "LevelSequenceActor.h"
+//#include "LevelSequence.h"
+#include "Kismet/GameplayStatics.h"
 #include "MovieSceneSequencePlayer.h"
+#include "LevelSequence/Public/LevelSequenceActor.h"
+#include "LevelSequence/Public/LevelSequence.h"
 #include "WorldScript/MyLevelScriptActor.h"
 
 void AMyLevelScriptActor::BeginPlay()
@@ -28,28 +31,18 @@ void AMyLevelScriptActor::BeginPlay()
 				Controller->SetInputMode(InputMode);
 				Controller->bShowMouseCursor = true;
 
-				ULevelSequence* NewSequence = NewObject<ULevelSequence>( Outer,NAME_None, RF_Transactional);
-				if(NewSequence)
+				TArray<AActor*>  LevelSequenceActorArray;
+				UGameplayStatics::GetAllActorsOfClass(GetWorld(), ALevelSequenceActor::StaticClass(), LevelSequenceActorArray);
+
+				for (AActor* Actor : LevelSequenceActorArray)
 				{
-					NewSequence->MovieScene = NewObject<UMovieScene>(NewSequence, NAME_None, RF_Transactional);
-					NewSequence->BindPossibles(true);
+					FirstShotActor = Cast<ALevelSequenceActor>(Actor);
 				}
 
-				ULevelSequence* NewSequence = CreateLevelSequence("MyLevelSequence", GetTransientPackage());
-				if(NewSequence)
+				if (FirstShotActor)
 				{
-					UMovieScene* MovieScene = AddMasterMovieSceneTrack(NewSequence);
-					ALevelSequenceActor* NewSequenceActor = CreateLevelSequenceActor(NewSequence, GetTransientPackage());
+					FirstShotActor->SequencePlayer->PlayLooping();
 				}
-
-				// Optionally, you can add more tracks, sections, and events to the MovieScene for further sequencing.
-
-				// Play the sequence (if desired)
-				if (NewSequenceActor)
-				{
-					NewSequenceActor->Play();
-				}
-
 			}
 		}
 	}
@@ -64,3 +57,54 @@ void AMyLevelScriptActor::Tick(float DeltaTime)
 
 
 }
+
+void AMyLevelScriptActor::StartGameSequence()
+{
+	if (FirstShotActor && MainMenuWidget)
+	{
+
+
+		FirstShotActor->SequencePlayer->SetPlayRate(10.f);
+
+		//FirstShotActor->SequencePlayer->Play();
+
+	}
+}
+
+void AMyLevelScriptActor::RemoveMainMenu()
+{
+	if(MainMenuWidget)
+	{
+		MainMenuWidget->RemoveFromViewport();
+	}
+
+}
+
+void AMyLevelScriptActor::SetGameInput()
+{
+	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+
+	if (PlayerController)
+	{
+		FInputModeGameOnly InputMode;
+		PlayerController->SetInputMode(InputMode);
+		PlayerController->bShowMouseCursor = false;
+	}
+
+}
+
+void AMyLevelScriptActor::StopSequence()
+{
+	if (FirstShotActor)
+	{
+
+
+		FirstShotActor->SequencePlayer->Stop();
+
+		
+
+	}
+
+}
+
+

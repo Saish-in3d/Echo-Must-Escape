@@ -2,6 +2,7 @@
 
 #include "Kismet/GameplayStatics.h"
 #include "Components/Button.h"
+#include "WorldScript/MyLevelScriptActor.h"
 #include "HUD/MainMenuWidget.h"
 
 bool UMainMenuWidget::Initialize()
@@ -15,6 +16,16 @@ bool UMainMenuWidget::Initialize()
 
 void UMainMenuWidget::OnClickStartGameButton()
 {
+	AMyLevelScriptActor* LevelScriptActor = Cast<AMyLevelScriptActor>(GetWorld()->GetLevelScriptActor());
+
+	if (LevelScriptActor)
+	{
+		LevelScriptActor->StartGameSequence();
+		LevelScriptActor->StartClicked = true;
+
+	}
+
+
 
 	//fastforward and close sequence
 	//remove Main mENU uI

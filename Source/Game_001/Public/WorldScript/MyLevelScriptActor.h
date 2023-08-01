@@ -22,6 +22,17 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 
+	void StartGameSequence();
+
+
+	void RemoveMainMenu();
+
+	void SetGameInput();
+
+	void StopSequence();
+
+	bool StartClicked = false;
+
 
 private:
 
@@ -31,4 +42,8 @@ private:
 
 	class UMainMenuWidget* MainMenuWidget;
 
+	
+
+	UPROPERTY(VisibleAnywhere)
+		class ALevelSequenceActor* FirstShotActor;
 };
