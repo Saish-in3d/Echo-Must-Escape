@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#pragma once
+#pragma once 
 
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
@@ -22,7 +22,11 @@ private:
 	UPROPERTY()
 		class USlashOverlayWidget* SlashOverlay;
 
+
 public:
 	FORCEINLINE class USlashOverlayWidget* GetSlashOverlay() const { return SlashOverlay; }
+
+
+	void InitSlashOverlay();
 	
 };

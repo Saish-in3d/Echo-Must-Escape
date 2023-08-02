@@ -4,6 +4,7 @@
 #include "SlashOverlayWidget.h"
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
+#include "Components/TextBlock.h"
 
 void USlashOverlayWidget::SetHealthBarPercent(float Percent)
 {
@@ -19,4 +20,13 @@ void USlashOverlayWidget::SetStaminaBarPercent(float Percent)
 	{
 		StaminaProgressBar->SetPercent(Percent);
 	}
+}
+
+void USlashOverlayWidget::SetTimerTB(FText Text)
+{
+	if (TimerTB)
+	{
+		TimerTB->SetText(Text);
+	}
+
 }

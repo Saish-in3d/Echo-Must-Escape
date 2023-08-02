@@ -19,6 +19,7 @@ public:
 	void SetHealthBarPercent(float Percent);
 	void SetStaminaBarPercent(float Percent);
 
+	void SetTimerTB(FText Text);
 
 private:
 	UPROPERTY(meta = (BindWidget))
@@ -26,6 +27,9 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 		class UProgressBar* StaminaProgressBar;
+
+	UPROPERTY(EditAnywhere)
+		class UTextBlock* TimerTB;
 
 
 	

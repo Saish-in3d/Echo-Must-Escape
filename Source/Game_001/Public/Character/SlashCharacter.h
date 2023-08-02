@@ -127,4 +127,13 @@ private:
 	UPROPERTY()
 		class UUserWidget* DoorOverlay;
 
+	UFUNCTION()
+		void PauseGame();
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UPauseMenuWidget> PauseWidgetClass;
+
+	UPROPERTY(EditAnywhere)
+	class UPauseMenuWidget* PauseMenuWidget;
+
 };

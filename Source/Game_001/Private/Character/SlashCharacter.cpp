@@ -9,6 +9,7 @@
 #include "Item/Weapons/Weapon.h"
 #include "Components/AttributeComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "HUD/PauseMenuWidget.h"
 #include "HUD/SlashHUD.h"
 #include "Blueprint/UserWidget.h"
 #include "SlashOverlayWidget.h"
@@ -280,6 +281,8 @@ void ASlashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAction(FName("Equip_E"), IE_Pressed, this, &ASlashCharacter::Equip_E);
 	PlayerInputComponent->BindAction(FName("Attack"), IE_Pressed, this, &ASlashCharacter::Attack);
 	PlayerInputComponent->BindAction(FName("Dodge"), IE_Pressed, this, &ASlashCharacter::Dodge);
+	PlayerInputComponent->BindAction(FName("Pause"), IE_Pressed, this, &ASlashCharacter::PauseGame);
+
 	
 }
 
@@ -388,6 +391,37 @@ void ASlashCharacter::SetHUDHealth()
 	{
 		SlashOverlay->SetHealthBarPercent(Attributes->GetHealthPercent());
 	}
+}
+
+void ASlashCharacter::PauseGame()
+{
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	if (PlayerController)
+	{
+		FInputModeUIOnly InputMode;
+		InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+		InputMode.SetWidgetToFocus(nullptr);
+		PlayerController->SetInputMode(InputMode);
+		PlayerController->bShowMouseCursor = true;
+
+		if (PauseWidgetClass)
+		{
+			 PauseMenuWidget = CreateWidget<UPauseMenuWidget>(PlayerController, PauseWidgetClass);
+
+
+			if (PauseMenuWidget)
+			{
+				PauseMenuWidget->AddToViewport();
+			}
+
+		}
+			
+			
+		
+	}
+
+
+
 }
 
 
