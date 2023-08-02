@@ -34,7 +34,8 @@ void UFoodItem::Use(ABaseCharacter* Character)
 			{
 				//UE_LOG(LogTemp, Warning, TEXT("Eat"));
 				Attributes->AddHealth(10.f);
-				SlashCharacter->InitializeSlashOverlay();
+				 
+				SlashCharacter->UpdateSlashOverlayHealth();
 			}
 		}
 

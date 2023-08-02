@@ -29,4 +29,13 @@ public:
 
 	void InitSlashOverlay();
 	
+	void ReverseTimerExpired();
+
+	UPROPERTY(EditAnywhere)
+		float Duration = 180.f;
+
+	FTimerHandle ReverseTimerHandle;
+
+	virtual void Tick(float DeltaTime) override;
+
 };

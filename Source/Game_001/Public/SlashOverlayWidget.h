@@ -28,8 +28,8 @@ private:
 	UPROPERTY(meta = (BindWidget))
 		class UProgressBar* StaminaProgressBar;
 
-	UPROPERTY(EditAnywhere)
-		class UTextBlock* TimerTB;
+	UPROPERTY(meta = (BindWidget))
+		class UTextBlock* Timer;
 
 
 	

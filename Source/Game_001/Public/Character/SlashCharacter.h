@@ -44,6 +44,7 @@ public:
 
 	void InitializeSlashOverlay();
 
+	void UpdateSlashOverlayHealth();
 
 	void CreateDoorInventoryWidget();
 
@@ -135,5 +136,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	class UPauseMenuWidget* PauseMenuWidget;
+
+
+
+
 
 };

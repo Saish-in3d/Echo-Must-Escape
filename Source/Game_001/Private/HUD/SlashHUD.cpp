@@ -28,7 +28,37 @@ void ASlashHUD::InitSlashOverlay()
 			{
 				//UE_LOG(LogTemp, Warning, TEXT("My int32 value"));
 				SlashOverlay->AddToViewport();
+
+				GetWorld()->GetTimerManager().SetTimer(ReverseTimerHandle, this, &ASlashHUD::ReverseTimerExpired, Duration, false);
+
+
+
+				
+
 			}
 		}
 	}
+}
+
+void ASlashHUD::ReverseTimerExpired()
+{
+
+
+}
+
+void ASlashHUD::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if(SlashOverlay)
+	{
+		float TimeLeft = GetWorld()->GetTimerManager().GetTimerRemaining(ReverseTimerHandle);
+
+		//UE_LOG(LogTemp, Warning, TEXT("Your Float Value: %f"), TimeLeft);
+
+		int32 IntegerValue = FMath::FloorToInt(TimeLeft);
+		FText DisplayText = FText::AsNumber(IntegerValue);
+		SlashOverlay->SetTimerTB(DisplayText);
+	}
+
 }

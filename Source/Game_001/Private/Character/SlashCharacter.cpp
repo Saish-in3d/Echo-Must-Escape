@@ -86,7 +86,7 @@ void ASlashCharacter::BeginPlay()
 	Super::BeginPlay();
 	Tags.Add(FName("EngageableTarget"));
 	Tags.Add(FName("Slash"));
-	//InitializeSlashOverlay();
+
 
 	
 }
@@ -289,11 +289,39 @@ void ASlashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 void ASlashCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (SlashOverlay == nullptr)
+	{
+		APlayerController* PlayerController = Cast<APlayerController>(GetController());
+		if (PlayerController)
+		{
+			ASlashHUD* SlashHUD = Cast<ASlashHUD>(PlayerController->GetHUD());
+			if (SlashHUD)
+			{
+				SlashOverlay = SlashHUD->GetSlashOverlay();
+				if (SlashOverlay && Attributes)
+				{
+					//SlashOverlay->SetHealthBarPercent(Attributes->GetHealthPercent());
+					SlashOverlay->SetStaminaBarPercent(1.f);
+
+
+				}
+			}
+		}
+	}
+
+
+
 	if (Attributes && SlashOverlay)
 	{
+
 		Attributes->RegenStamina(DeltaTime);
 		SlashOverlay->SetStaminaBarPercent(Attributes->GetStaminaPercent());
+
+
 	}
+
+
 }
 
 
@@ -334,19 +362,17 @@ bool ASlashCharacter::CanArm()
 
 void ASlashCharacter::InitializeSlashOverlay()
 {
-	APlayerController* PlayerController = Cast<APlayerController>(GetController());
-	if (PlayerController)
+	
+}
+
+void ASlashCharacter::UpdateSlashOverlayHealth()
+{
+
+	if (SlashOverlay && Attributes)
 	{
-		ASlashHUD* SlashHUD = Cast<ASlashHUD>(PlayerController->GetHUD());
-		if (SlashHUD)
-		{
-			SlashOverlay = SlashHUD->GetSlashOverlay();
-			if (SlashOverlay && Attributes)
-			{
-				SlashOverlay->SetHealthBarPercent(Attributes->GetHealthPercent());
-				SlashOverlay->SetStaminaBarPercent(1.f);
-			}
-		}
+		SlashOverlay->SetHealthBarPercent(Attributes->GetHealthPercent());
+
+
 	}
 }
 
@@ -389,6 +415,7 @@ void ASlashCharacter::SetHUDHealth()
 {
 	if (SlashOverlay && Attributes)
 	{
+
 		SlashOverlay->SetHealthBarPercent(Attributes->GetHealthPercent());
 	}
 }
@@ -423,6 +450,8 @@ void ASlashCharacter::PauseGame()
 
 
 }
+
+
 
 
 

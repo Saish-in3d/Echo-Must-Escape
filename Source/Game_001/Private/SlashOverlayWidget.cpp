@@ -24,9 +24,9 @@ void USlashOverlayWidget::SetStaminaBarPercent(float Percent)
 
 void USlashOverlayWidget::SetTimerTB(FText Text)
 {
-	if (TimerTB)
+	if (Timer)
 	{
-		TimerTB->SetText(Text);
+		Timer->SetText(Text);
 	}
 
 }
