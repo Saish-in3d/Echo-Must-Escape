@@ -4,7 +4,7 @@
 #include "SlashOverlayWidget.h"
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
-#include "Components/TextBlock.h"
+
 
 void USlashOverlayWidget::SetHealthBarPercent(float Percent)
 {

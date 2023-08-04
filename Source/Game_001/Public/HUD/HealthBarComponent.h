@@ -17,7 +17,7 @@ class GAME_001_API UHealthBarComponent : public UWidgetComponent
 public:
 	UFUNCTION()
 		void SetHealthPercent(float percent);
-	
+	 
 private:
 	UPROPERTY()
 		class UHealthBar* HealthBarWidget;
