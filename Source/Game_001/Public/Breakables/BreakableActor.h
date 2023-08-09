@@ -7,7 +7,7 @@
 #include "Interfaces/HitInterface.h"
 #include "BreakableActor.generated.h"
 
-UCLASS()
+UCLASS() 
 class GAME_001_API ABreakableActor : public AActor, public IHitInterface
 {
 	GENERATED_BODY()
@@ -23,21 +23,21 @@ protected:
 	virtual void BeginPlay() override;
 
 private:	
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	class UGeometryCollectionComponent* GeometryCollection;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 		TArray<TSubclassOf<class ATreasure>> TreasureClassess;
 		//class UClass* TreasureClass;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 		class UCapsuleComponent* BreakableCapsule;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 		class UCapsuleComponent* NewCapsule;
 
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	USceneComponent* NewSceneComponent;
 
 	UPROPERTY(EditAnywhere)
@@ -45,4 +45,8 @@ private:
 	
 
 	bool HasHit = false;
+
+	UPROPERTY(EditDefaultsOnly)
+
+	class UBoxComponent* Base;
 };

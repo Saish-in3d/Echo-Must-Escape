@@ -4,6 +4,7 @@
 #include "Breakables/BreakableActor.h"
 #include "Item/Treasure/Treasure.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/BoxComponent.h"
 #include "Inventory/HealthPickup.h"
 #include "GeometryCollection/GeometryCollectionComponent.h"
 
@@ -11,29 +12,53 @@ ABreakableActor::ABreakableActor()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
+	Base = CreateDefaultSubobject<UBoxComponent>(FName("BaseComponent"));
+	if (Base)
+	{
+		SetRootComponent(Base);
+	}
 
 
 	GeometryCollection = CreateDefaultSubobject<UGeometryCollectionComponent>(TEXT("GeometryCollection"));
-	SetRootComponent(GeometryCollection);
-	//GeometryCollection->SetupAttachment(GetRootComponent());
+	//SetRootComponent(GeometryCollection);
+	
 	GeometryCollection->SetGenerateOverlapEvents(true);
 	GeometryCollection->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
 	
 	BreakableCapsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("BreakableCapsule"));
 	//BreakableCapsule->SetupAttachment(GetRootComponent());
-	BreakableCapsule->AttachToComponent(GeometryCollection, FAttachmentTransformRules::KeepRelativeTransform);
+	
 	
 	BreakableCapsule->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Block);
 
 	//NewCapsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("NewCapsule"));
 
 	//NewSceneComponent = CreateDefaultSubobject<USceneComponent>(FName("NewSceneComponent"));
+	if (GeometryCollection)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GeometryCollection"));
+
+		GeometryCollection->SetupAttachment(GetRootComponent());  //, FAttachmentTransformRules::KeepRelativeTransform
+
+		GeometryCollection->SetEnableGravity(true);
+		
+	}
+	if (BreakableCapsule)
+	{
+		BreakableCapsule->SetupAttachment(GetRootComponent());
+	}
 }
 
 void ABreakableActor::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	if (GeometryCollection)
+	{
+		GeometryCollection->SetSimulatePhysics(true);
+	}
+
+
 }
 
 void ABreakableActor::Tick(float DeltaTime)

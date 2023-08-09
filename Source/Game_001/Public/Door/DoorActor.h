@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "DoorActor.generated.h"
-
+ 
 UCLASS()
 class GAME_001_API ADoorActor : public AActor
 {

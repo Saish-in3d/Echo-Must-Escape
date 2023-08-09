@@ -37,6 +37,8 @@ public:
 
 	FORCEINLINE class ADoorActor* GetDoorActor() { return DoorActor; }
 
+	void SetEquippedWeaponHidden(bool Value);
+
 
 protected:
 	virtual void BeginPlay() override;

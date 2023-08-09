@@ -41,6 +41,14 @@ void ABaseCharacter::UseItem(UBaseItem* Item)
 	}
 }
 
+void ABaseCharacter::SetEquippedWeaponHidden(bool Value)
+{
+	if(EquippedWeapon)
+	{
+		EquippedWeapon->SetHidden(Value);
+	}
+}
+
 // Called when the game starts or when spawned
 void ABaseCharacter::BeginPlay()
 {

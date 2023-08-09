@@ -36,7 +36,12 @@ void AMyLevelScriptActor::BeginPlay()
 
 				for (AActor* Actor : LevelSequenceActorArray)
 				{
-					FirstShotActor = Cast<ALevelSequenceActor>(Actor);
+					ALevelSequenceActor* FirstShotActorTemp = Cast<ALevelSequenceActor>(Actor);
+
+					if (FirstShotActorTemp && FirstShotActorTemp->ActorHasTag(FName("FirstShot")))
+					{
+						FirstShotActor = FirstShotActorTemp;
+					}
 				}
 
 				if (FirstShotActor)

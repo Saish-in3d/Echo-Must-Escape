@@ -11,7 +11,6 @@ void UObjLocationWidgetComponent::SetDistanceText()
 {
 	if (ObjLocWidget == nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("DIST"));
 
 		ObjLocWidget = Cast<UObjLocWidget>(GetUserWidgetObject());
 	}
