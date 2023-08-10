@@ -45,7 +45,7 @@ void ABaseCharacter::SetEquippedWeaponHidden(bool Value)
 {
 	if(EquippedWeapon)
 	{
-		EquippedWeapon->SetHidden(Value);
+		EquippedWeapon->SetActorHiddenInGame(Value);
 	}
 }
 

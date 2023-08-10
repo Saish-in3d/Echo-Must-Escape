@@ -50,6 +50,8 @@ public:
 
 	void DestroyDoorInventoryWidget();
 
+	void PublicDodge();
+
 
 protected:
 	virtual void BeginPlay() override;

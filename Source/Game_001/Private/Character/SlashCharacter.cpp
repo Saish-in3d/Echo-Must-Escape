@@ -406,6 +406,11 @@ void ASlashCharacter::DestroyDoorInventoryWidget()
 	}
 }
 
+void ASlashCharacter::PublicDodge()
+{
+	Dodge();
+}
+
 bool ASlashCharacter::IsUnoccupied()
 {
 	return ActionState == EActionState::EAS_Unoccupied;

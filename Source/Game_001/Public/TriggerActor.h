@@ -10,8 +10,8 @@ UCLASS()
 class GAME_001_API ATriggerActor : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ATriggerActor();
 
@@ -22,7 +22,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-private:	
+private:
 
 	UPROPERTY(EditDefaultsOnly)
 
@@ -40,11 +40,17 @@ private:
 		void OnBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	UPROPERTY()
-	class ALevelSequenceActor* MidShotActor;
+		class ALevelSequenceActor* MidShotActor;
 
 
 	UFUNCTION()
-	void OnSequencePlaybackFinished();
+		void OnSequencePlaybackFinished();
 
 	class ASlashCharacter* SlashChar;
+
+	UPROPERTY(EditInstanceOnly)
+	class UArrowComponent* ArrowComponent;
+
+	UPROPERTY(EditInstanceOnly)
+		FTransform ArrowTransform;
 };

@@ -5,6 +5,8 @@
 #include "LevelSequence/Public/LevelSequenceActor.h"
 #include "Kismet/GameplayStatics.h"
 #include "Character/SlashCharacter.h"
+#include "Components/ArrowComponent.h" 
+#include "GameFramework/CharacterMovementComponent.h" 
 
 #include "Components/BoxComponent.h"
 
@@ -22,6 +24,15 @@ ATriggerActor::ATriggerActor()
 	}
 	EntryOverlap = CreateDefaultSubobject<UBoxComponent>(FName("DoorOverlap"));
 	EntryOverlap->SetupAttachment(Base);
+
+	ArrowComponent = CreateDefaultSubobject<UArrowComponent>(TEXT("ArrowComponent")); 
+	if (ArrowComponent)
+	{
+		
+		ArrowComponent->SetupAttachment(Base);
+		ArrowComponent->SetRelativeTransform(ArrowTransform);
+	}
+
 }
 
 // Called when the game starts or when spawned
@@ -41,7 +52,7 @@ void ATriggerActor::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	SlashChar = Cast<ASlashCharacter>(OtherActor);
 	if (SlashChar)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Slash Triggered"));
+		
 		SlashChar->SetEquippedWeaponHidden(true);
 	}
 
@@ -78,11 +89,17 @@ void ATriggerActor::OnBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AA
 
 void ATriggerActor::OnSequencePlaybackFinished()
 {
-	if (SlashChar)
+	
+	if (SlashChar && ArrowComponent)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Slash Triggered"));
 		FVector Loctaton = FVector(-650.000000, -6910.000000, 100.000000);
 		FRotator Rotation = FRotator( 0.000000,  -270.000000,  0.000000);
-		SlashChar->TeleportTo(Loctaton, Rotation);
+		SlashChar->SetActorLocation(ArrowComponent->GetComponentLocation());
+		SlashChar->SetActorRotation(ArrowComponent->GetComponentRotation());
+		SlashChar->GetController()->SetControlRotation(ArrowComponent->GetComponentRotation());
+		UCharacterMovementComponent* CharacterMovement =  SlashChar->GetCharacterMovement();
+		SlashChar->PublicDodge();
 		SlashChar->SetEquippedWeaponHidden(false);
 	}
 
