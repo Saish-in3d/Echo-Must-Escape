@@ -1,10 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
+#include "Character/CharacterTypes.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "TriggerActor.generated.h"
+
 
 UCLASS()
 class GAME_001_API ATriggerActor : public AActor
@@ -29,12 +30,16 @@ private:
 		class UBoxComponent* Base;
 
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditInstanceOnly)
 
 		class UBoxComponent* EntryOverlap;
 
 	UFUNCTION()
 		virtual void OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	void PerformStage2(AActor* OtherActor, bool& retflag);
+
+	void PerformStage1(AActor* OtherActor);
 
 	UFUNCTION()
 		void OnBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
@@ -44,7 +49,10 @@ private:
 
 
 	UFUNCTION()
-		void OnSequencePlaybackFinished();
+		void OnStage1C();
+
+	UFUNCTION()
+		void OnStage2C();
 
 	class ASlashCharacter* SlashChar;
 
@@ -53,4 +61,10 @@ private:
 
 	UPROPERTY(EditInstanceOnly)
 		FTransform ArrowTransform;
+
+	UPROPERTY()
+	EGameStage GameStage = EGameStage::EGS_NoState;
+
+	UPROPERTY()
+		class ALevelSequenceActor* FinalShotActor;
 };

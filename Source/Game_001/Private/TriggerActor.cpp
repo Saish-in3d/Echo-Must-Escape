@@ -8,6 +8,9 @@
 #include "Components/ArrowComponent.h" 
 #include "GameFramework/CharacterMovementComponent.h" 
 
+#include "Kismet/GameplayStatics.h"
+#include "HUD/ObjectiveDistanceMarker.h"
+
 #include "Components/BoxComponent.h"
 
 
@@ -41,6 +44,7 @@ void ATriggerActor::BeginPlay()
 	Super::BeginPlay();
 
 
+
 	EntryOverlap->OnComponentBeginOverlap.AddDynamic(this, &ATriggerActor::OnBoxOverlap);
 
 	EntryOverlap->OnComponentEndOverlap.AddDynamic(this, &ATriggerActor::OnBoxEndOverlap);
@@ -50,35 +54,130 @@ void ATriggerActor::BeginPlay()
 void ATriggerActor::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	SlashChar = Cast<ASlashCharacter>(OtherActor);
-	if (SlashChar)
+	if (SlashChar && SlashChar->SlashGameStage == EGameStage::EGS_NoState)
 	{
-		
-		SlashChar->SetEquippedWeaponHidden(true);
+		PerformStage1(OtherActor);
+	}
+	if (SlashChar && SlashChar->SlashGameStage == EGameStage::EGS_Stage1C)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Slash Triggered"));
+		bool retflag;
+		PerformStage2(OtherActor, retflag);
+		if (retflag) return;
+
 	}
 
+}
 
-	TArray<AActor*>  LevelSequenceActorArray;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ALevelSequenceActor::StaticClass(), LevelSequenceActorArray);
-
-	for (AActor* Actor : LevelSequenceActorArray)
+void ATriggerActor::PerformStage2(AActor* OtherActor, bool& retflag)
+{
+	retflag = true;
+	if (OtherActor->ActorHasTag(FName("Stage2C"))) { return; }
+	SlashChar = Cast<ASlashCharacter>(OtherActor);
+	if (SlashChar)
 	{
-		
-		ALevelSequenceActor* MidShotActorTemp = Cast<ALevelSequenceActor>(Actor);
 
-		if (MidShotActorTemp && MidShotActorTemp->ActorHasTag(FName("ExitShot")))
+		SlashChar->SetEquippedWeaponHidden(true);
+
+		SlashChar->Tags.Add(FName("Stage2C"));
+
+		TArray<AActor*>  LevelSequenceActorArray;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ALevelSequenceActor::StaticClass(), LevelSequenceActorArray);
+
+		for (AActor* Actor : LevelSequenceActorArray)
 		{
-			MidShotActor = MidShotActorTemp;
+
+			ALevelSequenceActor* FinalShotActorTemp = Cast<ALevelSequenceActor>(Actor);
+
+			if (FinalShotActorTemp && FinalShotActorTemp->ActorHasTag(FName("FinalShot")))
+			{
+				FinalShotActor = FinalShotActorTemp;
+			}
+		}
+
+		if (FinalShotActor)
+		{
+			FinalShotActor->SequencePlayer->Play();
+			FinalShotActor->SequencePlayer->OnFinished.AddDynamic(this, &ATriggerActor::OnStage2C);
+		}
+
+		TArray<AActor*> FoundActors;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AObjectiveDistanceMarker::StaticClass(), FoundActors);
+
+		for (AActor* Actor : FoundActors)
+		{
+			AObjectiveDistanceMarker* YourClassActor = Cast<AObjectiveDistanceMarker>(Actor);
+			if (YourClassActor)
+			{
+				if (YourClassActor->ActorHasTag(FName("Stage2")))
+				{
+					YourClassActor->SetActorHiddenInGame(true);
+				}
+			}
+
+		}
+
+		if (EntryOverlap)
+		{
+			EntryOverlap->SetGenerateOverlapEvents(false);
 		}
 	}
 
-	if (MidShotActor)
+	
+	retflag = false;
+}
+
+void ATriggerActor::PerformStage1(AActor* OtherActor)
+{
+	
+	if (OtherActor->ActorHasTag(FName("Stage1C"))) { return; }
+	SlashChar = Cast<ASlashCharacter>(OtherActor);
+	if (SlashChar)
 	{
-		MidShotActor->SequencePlayer->Play();
-		MidShotActor->SequencePlayer->OnFinished.AddDynamic(this, &ATriggerActor::OnSequencePlaybackFinished);
+		SlashChar->SetEquippedWeaponHidden(true);
+
+		SlashChar->Tags.Add(FName("Stage1C"));
+
+		TArray<AActor*>  LevelSequenceActorArray;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ALevelSequenceActor::StaticClass(), LevelSequenceActorArray);
+
+		for (AActor* Actor : LevelSequenceActorArray)
+		{
+
+			ALevelSequenceActor* MidShotActorTemp = Cast<ALevelSequenceActor>(Actor);
+
+			if (MidShotActorTemp && MidShotActorTemp->ActorHasTag(FName("ExitShot")))
+			{
+				MidShotActor = MidShotActorTemp;
+			}
+		}
+
+		if (MidShotActor)
+		{
+			MidShotActor->SequencePlayer->Play();
+			MidShotActor->SequencePlayer->OnFinished.AddDynamic(this, &ATriggerActor::OnStage1C);
+		}
+
+		TArray<AActor*> FoundActors;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AObjectiveDistanceMarker::StaticClass(), FoundActors);
+
+		for (AActor* Actor : FoundActors)
+		{
+			AObjectiveDistanceMarker* YourClassActor = Cast<AObjectiveDistanceMarker>(Actor);
+			if (YourClassActor)
+			{
+				if (YourClassActor->ActorHasTag(FName("Stage1")))
+				{
+					YourClassActor->SetActorHiddenInGame(true);
+				}
+			}
+
+		}
 	}
-			
 
 
+
+	
 }
 
 void ATriggerActor::OnBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
@@ -87,21 +186,45 @@ void ATriggerActor::OnBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AA
 
 }
 
-void ATriggerActor::OnSequencePlaybackFinished()
+void ATriggerActor::OnStage1C()
 {
 	
-	if (SlashChar && ArrowComponent)
+	if (SlashChar && ArrowComponent && EntryOverlap)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Slash Triggered"));
-		FVector Loctaton = FVector(-650.000000, -6910.000000, 100.000000);
-		FRotator Rotation = FRotator( 0.000000,  -270.000000,  0.000000);
+		//EntryOverlap->SetGenerateOverlapEvents(false);
+		SlashChar->SlashGameStage = EGameStage::EGS_Stage1C;
+
+
+		//UE_LOG(LogTemp, Warning, TEXT("Slash Triggered"));
 		SlashChar->SetActorLocation(ArrowComponent->GetComponentLocation());
 		SlashChar->SetActorRotation(ArrowComponent->GetComponentRotation());
 		SlashChar->GetController()->SetControlRotation(ArrowComponent->GetComponentRotation());
-		UCharacterMovementComponent* CharacterMovement =  SlashChar->GetCharacterMovement();
 		SlashChar->PublicDodge();
 		SlashChar->SetEquippedWeaponHidden(false);
+
+
+		TArray<AActor*> FoundActors;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AObjectiveDistanceMarker::StaticClass(), FoundActors);
+
+		for (AActor* Actor : FoundActors)
+		{
+			AObjectiveDistanceMarker* YourClassActor = Cast<AObjectiveDistanceMarker>(Actor);
+			if (YourClassActor)
+			{
+				if (YourClassActor->ActorHasTag(FName("Stage2")))
+				{
+					YourClassActor->SetActorHiddenInGame(false);
+				}
+			}
+		}
 	}
+}
+
+void ATriggerActor::OnStage2C()
+{
+	FString CurrentLevelName = GetWorld()->GetMapName();
+	UGameplayStatics::OpenLevel(GetWorld(), FName("Stylized_Egypt_Demo"));
+
 
 }
 

@@ -52,6 +52,9 @@ public:
 
 	void PublicDodge();
 
+	UPROPERTY()
+		EGameStage SlashGameStage = EGameStage::EGS_NoState;
+
 
 protected:
 	virtual void BeginPlay() override;
@@ -138,7 +141,6 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	class UPauseMenuWidget* PauseMenuWidget;
-
 
 
 

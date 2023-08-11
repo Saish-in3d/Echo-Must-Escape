@@ -54,43 +54,11 @@ enum class EEnemyState : uint8
 	
 };
 
-/*
-UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-if (AnimInstance && DeathMontage)
+
+UENUM(BlueprintType)
+enum class EGameStage : uint8
 {
-	AnimInstance->Montage_Play(DeathMontage);
-	FName SectionName;
-	const int32 Selection = FMath::RandRange(0, 5);
-
-	switch (Selection)
-	{
-	case 0:
-		SectionName = FName("Death 1");
-		DeathPose = EDeathState::EDS_Death6;
-		break;
-	case 1:
-		SectionName = FName("Death 2");
-		DeathPose = EDeathState::EDS_Death5;
-		break;
-	case 2:
-		SectionName = FName("Death 3");
-		DeathPose = EDeathState::EDS_Death4;
-		break;
-	case 3:
-		SectionName = FName("Death 4");
-		DeathPose = EDeathState::EDS_Death3;
-		break;
-	case 4:
-		SectionName = FName("Death 5");
-		DeathPose = EDeathState::EDS_Death2;
-		break;
-	case 5:
-		SectionName = FName("Death 6");
-		DeathPose = EDeathState::EDS_Death1;
-		break;
-	default:
-		break;
-	}
-
-	AnimInstance->Montage_JumpToSection(SectionName, DeathMontage);
-}*/
+	EGS_NoState UMETA(DisplayName = "NoState"),
+	EGS_Stage1C UMETA(DisplayName = "Stage1C"),
+	EGS_Stage2C UMETA(DisplayName = "Stage2C")
+};

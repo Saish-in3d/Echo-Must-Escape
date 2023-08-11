@@ -5,8 +5,11 @@
 //#include "LevelSequenceActor.h"
 //#include "LevelSequence.h"
 #include "Kismet/GameplayStatics.h"
+#include "HUD/ObjectiveDistanceMarker.h"
 #include "MovieSceneSequencePlayer.h"
 #include "LevelSequence/Public/LevelSequenceActor.h"
+
+
 #include "LevelSequence/Public/LevelSequence.h"
 #include "WorldScript/MyLevelScriptActor.h"
 
@@ -49,6 +52,19 @@ void AMyLevelScriptActor::BeginPlay()
 					FirstShotActor->SequencePlayer->PlayLooping();
 				}
 			}
+		}
+
+		TArray<AActor*> FoundActors;
+		UGameplayStatics::GetAllActorsOfClass(World, AObjectiveDistanceMarker::StaticClass(), FoundActors);
+
+		for (AActor* Actor : FoundActors)
+		{
+			AObjectiveDistanceMarker* YourClassActor = Cast<AObjectiveDistanceMarker>(Actor);
+			if (YourClassActor)
+			{
+				YourClassActor->SetActorHiddenInGame(true);
+			}
+
 		}
 	}
 

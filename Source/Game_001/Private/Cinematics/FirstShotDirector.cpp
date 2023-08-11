@@ -3,6 +3,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "HUD/SlashHUD.h"
 #include "WorldScript/MyLevelScriptActor.h"
+#include "Kismet/GameplayStatics.h"
+#include "HUD/ObjectiveDistanceMarker.h"
 #include "Cinematics/FirstShotDirector.h"
 
 void UFirstShotDirector::EndFirstShot()
@@ -23,6 +25,22 @@ void UFirstShotDirector::EndFirstShot()
 			if (SlashHUD)
 			{
 				SlashHUD->InitSlashOverlay();
+
+				TArray<AActor*> FoundActors;
+				UGameplayStatics::GetAllActorsOfClass(GetWorld(), AObjectiveDistanceMarker::StaticClass(), FoundActors);
+
+				for (AActor* Actor : FoundActors)
+				{
+					AObjectiveDistanceMarker* YourClassActor = Cast<AObjectiveDistanceMarker>(Actor);
+					if (YourClassActor)
+					{
+						if(YourClassActor->ActorHasTag(FName("Stage1")))
+						{
+							YourClassActor->SetActorHiddenInGame(false);
+						}
+					}
+
+				}
 			}
 		}
 	}
