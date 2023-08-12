@@ -55,6 +55,9 @@ public:
 	UPROPERTY()
 		EGameStage SlashGameStage = EGameStage::EGS_NoState;
 
+	UPROPERTY()
+		bool IsSequenceOn = false;
+
 
 protected:
 	virtual void BeginPlay() override;

@@ -62,3 +62,5 @@ enum class EGameStage : uint8
 	EGS_Stage1C UMETA(DisplayName = "Stage1C"),
 	EGS_Stage2C UMETA(DisplayName = "Stage2C")
 };
+
+

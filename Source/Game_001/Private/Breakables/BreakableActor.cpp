@@ -40,7 +40,7 @@ ABreakableActor::ABreakableActor()
 
 		GeometryCollection->SetupAttachment(GetRootComponent());  //, FAttachmentTransformRules::KeepRelativeTransform
 
-		GeometryCollection->SetEnableGravity(true);
+		GeometryCollection->SetEnableGravity(false);
 		
 	}
 	if (BreakableCapsule)

@@ -7,6 +7,7 @@
 #include "Character/SlashCharacter.h"
 #include "Components/ArrowComponent.h" 
 #include "GameFramework/CharacterMovementComponent.h" 
+#include "HUD/SlashHUD.h"
 
 
 #include "HUD/ObjectiveDistanceMarker.h"
@@ -99,6 +100,18 @@ void ATriggerActor::PerformStage2(AActor* OtherActor, bool& retflag)
 		if (FinalShotActor)
 		{
 			FinalShotActor->SequencePlayer->Play();
+			SlashChar->IsSequenceOn = true;
+			APlayerController* PlayerControllerTemp = GetWorld()->GetFirstPlayerController();
+
+			if (PlayerControllerTemp)
+			{
+				ASlashHUD* SlashHudTemp = Cast<ASlashHUD>(PlayerControllerTemp->GetHUD());
+
+				if (SlashHudTemp)
+				{
+					SlashHudTemp->RemoveSlashOverlay();
+				}
+			}
 			FinalShotActor->SequencePlayer->OnFinished.AddDynamic(this, &ATriggerActor::OnStage2C);
 		}
 
@@ -155,6 +168,7 @@ void ATriggerActor::PerformStage1(AActor* OtherActor)
 
 		if (MidShotActor)
 		{
+			SlashChar->IsSequenceOn = true;
 			MidShotActor->SequencePlayer->Play();
 			MidShotActor->SequencePlayer->OnFinished.AddDynamic(this, &ATriggerActor::OnStage1C);
 		}
@@ -192,6 +206,7 @@ void ATriggerActor::OnStage1C()
 	
 	if (SlashChar && ArrowComponent && EntryOverlap)
 	{
+		SlashChar->IsSequenceOn = false;
 		//EntryOverlap->SetGenerateOverlapEvents(false);
 		SlashChar->SlashGameStage = EGameStage::EGS_Stage1C;
 
@@ -223,7 +238,10 @@ void ATriggerActor::OnStage1C()
 
 void ATriggerActor::OnStage2C()
 {
-	
+	if(SlashChar)
+	{
+		SlashChar->IsSequenceOn = false;
+	}
 	UGameplayStatics::OpenLevel(GetWorld(), FName("Stylized_Egypt_Demo"));
 
 

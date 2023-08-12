@@ -60,7 +60,7 @@ void ASlashHUD::ReverseTimerExpired()
 
 		ALevelSequenceActor* FinalShotActorTemp = Cast<ALevelSequenceActor>(Actor);
 
-		if (FinalShotActorTemp && FinalShotActorTemp->ActorHasTag(FName("FinalShot")))
+		if (FinalShotActorTemp && FinalShotActorTemp->ActorHasTag(FName("FailShot")))
 		{
 			FinalShotActor = FinalShotActorTemp;
 		}

@@ -548,17 +548,20 @@ void ASlashCharacter::OnStageFC()
 
 void ASlashCharacter::OpenInventory()
 {
-	InventoryWidget = CreateWidget<UUserWidget>(GetWorld(), InventoryWidgetClass);
-
-	if (InventoryWidget)
+	if(IsSequenceOn == false)
 	{
-		InventoryWidget->AddToViewport();
-		APlayerController* Controllertemp = GetWorld()->GetFirstPlayerController();
-		if (Controllertemp)
+		InventoryWidget = CreateWidget<UUserWidget>(GetWorld(), InventoryWidgetClass);
+
+		if (InventoryWidget)
 		{
-			FInputModeGameAndUI  InputMode;
-			Controllertemp->SetInputMode(InputMode);
-			Controllertemp->bShowMouseCursor = true;
+			InventoryWidget->AddToViewport();
+			APlayerController* Controllertemp = GetWorld()->GetFirstPlayerController();
+			if (Controllertemp)
+			{
+				FInputModeGameAndUI  InputMode;
+				Controllertemp->SetInputMode(InputMode);
+				Controllertemp->bShowMouseCursor = true;
+			}
 		}
 	}
 
