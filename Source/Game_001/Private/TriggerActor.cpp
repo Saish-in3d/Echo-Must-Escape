@@ -8,7 +8,7 @@
 #include "Components/ArrowComponent.h" 
 #include "GameFramework/CharacterMovementComponent.h" 
 
-#include "Kismet/GameplayStatics.h"
+
 #include "HUD/ObjectiveDistanceMarker.h"
 
 #include "Components/BoxComponent.h"
@@ -76,6 +76,7 @@ void ATriggerActor::PerformStage2(AActor* OtherActor, bool& retflag)
 	SlashChar = Cast<ASlashCharacter>(OtherActor);
 	if (SlashChar)
 	{
+		
 
 		SlashChar->SetEquippedWeaponHidden(true);
 
@@ -222,7 +223,7 @@ void ATriggerActor::OnStage1C()
 
 void ATriggerActor::OnStage2C()
 {
-	FString CurrentLevelName = GetWorld()->GetMapName();
+	
 	UGameplayStatics::OpenLevel(GetWorld(), FName("Stylized_Egypt_Demo"));
 
 

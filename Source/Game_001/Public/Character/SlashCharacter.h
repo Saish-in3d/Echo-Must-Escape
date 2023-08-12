@@ -143,6 +143,31 @@ private:
 	class UPauseMenuWidget* PauseMenuWidget;
 
 
+	FTimerHandle AfterDeathTimer;
 
+	float AfterDeathDelay = 2.0f;
+
+	void AfterDeathSequence();
+
+	class ALevelSequenceActor* FinalShotActor;
+
+	UPROPERTY()
+		UUserWidget* EndScreenWidget;
+
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<UUserWidget> EndScreenWidgetClass;
+
+	UFUNCTION()
+
+	void OnStageFC();
+
+	UFUNCTION()
+		void OpenInventory();
+
+	UPROPERTY()
+		UUserWidget* InventoryWidget;
+
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<UUserWidget>InventoryWidgetClass;
 
 };

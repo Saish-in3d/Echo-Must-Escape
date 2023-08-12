@@ -10,8 +10,12 @@
 #include "Components/AttributeComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "HUD/PauseMenuWidget.h"
+#include "HUD/ObjectiveDistanceMarker.h"
+#include "Kismet/GameplayStatics.h"
+#include "LevelSequence/Public/LevelSequenceActor.h"
 #include "HUD/SlashHUD.h"
 #include "Blueprint/UserWidget.h"
+#include "Enemy/Enemy.h"
 #include "SlashOverlayWidget.h"
 // Sets default values
 ASlashCharacter::ASlashCharacter()
@@ -242,6 +246,28 @@ void ASlashCharacter::Die()
 	ActionState = EActionState::EAS_Dead;
 	DisableMeshCollision();
 
+
+
+	if (SlashOverlay)
+	{
+		SlashOverlay->RemoveFromViewport();
+	}
+
+
+	TArray<AActor*> FoundActorsM;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AObjectiveDistanceMarker::StaticClass(), FoundActorsM);
+
+	for (AActor* ActorM : FoundActorsM)
+	{
+		AObjectiveDistanceMarker* YourClassActorM = Cast<AObjectiveDistanceMarker>(ActorM);
+		if (YourClassActorM)
+		{
+			//UE_LOG(LogTemp, Warning, TEXT("HiddenActor"));
+			YourClassActorM->SetActorHiddenInGame(true);
+		}
+	}
+
+	GetWorldTimerManager().SetTimer(AfterDeathTimer, this, &ASlashCharacter::AfterDeathSequence, AfterDeathDelay, false);
 }
 
 void ASlashCharacter::DodgeEnd()
@@ -282,6 +308,7 @@ void ASlashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAction(FName("Attack"), IE_Pressed, this, &ASlashCharacter::Attack);
 	PlayerInputComponent->BindAction(FName("Dodge"), IE_Pressed, this, &ASlashCharacter::Dodge);
 	PlayerInputComponent->BindAction(FName("Pause"), IE_Pressed, this, &ASlashCharacter::PauseGame);
+	PlayerInputComponent->BindAction(FName("Tab"), IE_Pressed, this, &ASlashCharacter::OpenInventory);
 
 	
 }
@@ -453,6 +480,87 @@ void ASlashCharacter::PauseGame()
 	}
 
 
+
+}
+
+void ASlashCharacter::AfterDeathSequence()
+{
+	TArray<AActor*> FoundActorsD;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AEnemy::StaticClass(), FoundActorsD);
+
+	for (AActor* ActorD : FoundActorsD)
+	{
+
+
+		AEnemy* EnemyTemp = Cast<AEnemy>(ActorD);
+		if (EnemyTemp)
+		{
+			EnemyTemp->Die();
+
+		}
+
+	}
+
+	TArray<AActor*>  LevelSequenceActorArray;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ALevelSequenceActor::StaticClass(), LevelSequenceActorArray);
+
+	for (AActor* Actor : LevelSequenceActorArray)
+	{
+
+		ALevelSequenceActor* FinalShotActorTemp = Cast<ALevelSequenceActor>(Actor);
+
+		if (FinalShotActorTemp && FinalShotActorTemp->ActorHasTag(FName("FinalShot")))
+		{
+			FinalShotActor = FinalShotActorTemp;
+		}
+	}
+
+	if (FinalShotActor)
+	{
+		FinalShotActor->SequencePlayer->Play();
+		EndScreenWidget = CreateWidget<UUserWidget>(GetWorld(), EndScreenWidgetClass);
+		if (EndScreenWidget)
+		{
+			EndScreenWidget->AddToViewport();
+			APlayerController* Controllertemp = GetWorld()->GetFirstPlayerController();
+			if (Controllertemp)
+			{
+				FInputModeUIOnly InputMode;
+				Controllertemp->SetInputMode(InputMode);
+				Controllertemp->bShowMouseCursor = true;
+			}
+		}
+		FinalShotActor->SequencePlayer->OnFinished.AddDynamic(this, &ASlashCharacter::OnStageFC);
+
+
+	}
+
+
+
+}
+
+void ASlashCharacter::OnStageFC()
+{
+
+	UGameplayStatics::OpenLevel(GetWorld(), FName("Stylized_Egypt_Demo"));
+
+}
+
+void ASlashCharacter::OpenInventory()
+{
+	InventoryWidget = CreateWidget<UUserWidget>(GetWorld(), InventoryWidgetClass);
+
+	if (InventoryWidget)
+	{
+		InventoryWidget->AddToViewport();
+		APlayerController* Controllertemp = GetWorld()->GetFirstPlayerController();
+		if (Controllertemp)
+		{
+			FInputModeGameAndUI  InputMode;
+			Controllertemp->SetInputMode(InputMode);
+			Controllertemp->bShowMouseCursor = true;
+		}
+	}
 
 }
 

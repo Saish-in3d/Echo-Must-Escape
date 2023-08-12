@@ -127,18 +127,16 @@ void ABaseCharacter::GetHit_Implementation(const FVector& ImpactPoint)
 
 	 if (GEngine)
 	 {
-		 GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Green, FString::Printf(TEXT("Theta: %f"), Theta));
+		// GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Green, FString::Printf(TEXT("Theta: %f"), Theta));
 
 	 }
-	 //UKismetSystemLibrary::DrawDebugArrow(this, GetActorLocation(), GetActorLocation() + GetActorForwardVector() * 60.f, 5.f, FColor::Red, 5.f);
-	 //UKismetSystemLibrary::DrawDebugArrow(this, GetActorLocation(), GetActorLocation() + ToHitDisplay * 60.f, 5.f, FColor::Green, 5.f);
+
 
 	 const FVector CrossProduct = FVector::CrossProduct(ForwardVector, ToHit);
 	 if (CrossProduct.Z < 0)
 	 {
 		 Theta *= -1.f;
 	 }
-	 //UKismetSystemLibrary::DrawDebugArrow(this, GetActorLocation(), GetActorLocation() + CrossProduct * 100.f, 5.f, FColor::Blue, 5.f);
 
 	 FName SectionName = FName("React_Back");
 

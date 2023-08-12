@@ -23,6 +23,19 @@ private:
 		class USlashOverlayWidget* SlashOverlay;
 
 
+	UPROPERTY()
+		class ALevelSequenceActor* FinalShotActor;
+
+	UFUNCTION()
+	void OnStageFC();
+
+	UPROPERTY()
+	UUserWidget* EndScreenWidget;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> EndScreenWidgetClass;
+
+
 public:
 	FORCEINLINE class USlashOverlayWidget* GetSlashOverlay() const { return SlashOverlay; }
 
@@ -31,11 +44,16 @@ public:
 	
 	void ReverseTimerExpired();
 
+	void RemoveSlashOverlay();
+
 	UPROPERTY(EditAnywhere)
 		float Duration = 180.f;
 
 	FTimerHandle ReverseTimerHandle;
 
 	virtual void Tick(float DeltaTime) override;
+
+
+	
 
 };

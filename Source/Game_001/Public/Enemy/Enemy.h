@@ -23,14 +23,14 @@ public:
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 	virtual void HandleDamage(float DamageAmount) override;
-
+	virtual void Die() override;
 
 	UFUNCTION(BlueprintCallable)
 		FVector GetTranslationWarpTarget();
 
 	UFUNCTION(BlueprintCallable)
 		FVector GetRotationWarpTarget();
-
+	void HideHealthBar();
 	// AI Combat End
 	
 protected:
@@ -71,7 +71,7 @@ protected:
 	//Navigation end
 
 	//Combat Start
-	void HideHealthBar();
+	
 	void ShowHealthBar();
 	virtual void AttackEnd() override;
 	void StartAttackTimer();
@@ -106,7 +106,7 @@ private:
 		// AI Navigation Start 
 
 		//Combat Start 
-		virtual void Die() override;
+		
 		virtual void EquippedWeaponDestroy() override;
 		virtual void Attack() override;
 
